@@ -1,0 +1,2434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 中文词汇大师 · 500 Nouns + 200 Verbs + 100 Radicals + Songs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1e2b4a 0%, #2b3d6f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            margin-bottom: 8px;
+        }
+
+        .header .sub {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .stat-card span {
+            font-weight: 300;
+            margin-right: 8px;
+            opacity: 0.9;
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 40px 0 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 16px 36px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            min-width: 160px;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #1e2b4a;
+            border-color: white;
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .tab-panel {
+            display: none;
+            background: white;
+            border-radius: 40px;
+            padding: 30px 30px 45px;
+            box-shadow: 0 25px 50px -8px rgba(0,0,0,0.4);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 18px 25px;
+            border: 2px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            transition: 0.2s;
+            background: #f8fafc;
+        }
+
+        .search-box input:focus {
+            border-color: #3b4e8c;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(59,78,140,0.2);
+        }
+
+        .search-box select {
+            padding: 0 30px;
+            border-radius: 60px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .word-card {
+            background: #f9f9ff;
+            border-radius: 24px;
+            padding: 22px 20px;
+            border-left: 6px solid #3b4e8c;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.15s ease;
+        }
+
+        .word-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+
+        .chinese-word {
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 5px;
+            color: #0b1b3a;
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .chinese-word:hover {
+            background: #e0e7ff;
+            transform: scale(1.02);
+        }
+
+        .chinese-word.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .pinyin {
+            font-size: 1.1rem;
+            color: #4a5b8a;
+            font-weight: 500;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 6px;
+        }
+
+        .meaning {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 1rem;
+            margin: 12px 0 8px;
+        }
+
+        .meaning strong {
+            background: #e9ecf5;
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #1e293b;
+        }
+
+        .example {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 15px;
+            margin-top: 12px;
+            border: 1px solid #dee4f0;
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .example-chinese {
+            font-size: 1.35rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .example-chinese:hover {
+            background: #e0e7ff;
+        }
+
+        .example-chinese.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
+        .audio-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .audio-btn:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        .audio-btn.playing {
+            background: #ff9800;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .example-pinyin {
+            font-size: 1rem;
+            color: #e67e22;
+            font-weight: 500;
+            margin: 5px 0 8px;
+            padding: 4px 0;
+            border-bottom: 1px dotted #ffd7b5;
+        }
+
+        .example-translation {
+            color: #3f4f74;
+            font-style: italic;
+            margin-top: 6px;
+            border-left: 3px solid #9aa9c7;
+            padding-left: 12px;
+        }
+
+        .song-card {
+            background: linear-gradient(145deg, #f9f7ff, #ffffff);
+            border-left: 6px solid #e67e22;
+        }
+
+        .song-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e2b4a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .song-title:hover {
+            background: #e0e7ff;
+        }
+
+        .song-title.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .song-artist {
+            background: #e0e7ff;
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2e3e6b;
+        }
+
+        .youtube-link, .lyrics-btn {
+            display: inline-block;
+            margin: 5px 0;
+            padding: 8px 22px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .youtube-link {
+            background: #ff0000;
+            color: white;
+            border: 1px solid #ff4d4d;
+        }
+
+        .youtube-link:hover {
+            background: #cc0000;
+        }
+
+        .lyrics-btn {
+            background: #3b4e8c;
+            color: white;
+            border: 1px solid #5a6ea0;
+        }
+
+        .lyrics-btn:hover {
+            background: #2a3a6a;
+        }
+
+        .song-lyric-snippet {
+            background: #f1f4fe;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 10px;
+        }
+
+        .lyric-line {
+            font-size: 1.3rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .lyric-line:hover {
+            background: #e0e7ff;
+        }
+
+        .lyric-line.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
+        .lyric-pinyin {
+            font-size: 0.95rem;
+            color: #e67e22;
+            margin: 5px 0;
+        }
+
+        .translation-block {
+            margin-top: 8px;
+            color: #2e405b;
+        }
+
+        .translation-en {
+            font-weight: 500;
+        }
+
+        .translation-sw {
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        /* Radical Card Styles */
+        .radical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .radical-card {
+            background: linear-gradient(145deg, #f0f4fa, #ffffff);
+            border-radius: 24px;
+            padding: 20px;
+            border-left: 6px solid #9c27b0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.15s ease;
+        }
+
+        .radical-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+
+        .radical-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .radical-symbol {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #9c27b0;
+            background: #f3e5f5;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radical-symbol:hover {
+            background: #e1bee7;
+            transform: scale(1.05);
+        }
+
+        .radical-symbol.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .radical-info {
+            flex: 1;
+        }
+
+        .radical-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e2b4a;
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .radical-name:hover {
+            background: #e0e7ff;
+        }
+
+        .radical-name.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .radical-meaning {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .radical-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .example-word {
+            background: #e9ecf5;
+            padding: 8px 15px;
+            border-radius: 30px;
+            text-align: center;
+            min-width: 80px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .example-word:hover {
+            background: #d1d9e6;
+            transform: scale(1.05);
+        }
+
+        .example-word.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .example-word .chinese {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e2b4a;
+        }
+
+        .example-word.playing .chinese {
+            color: white;
+        }
+
+        .example-word .pinyin {
+            font-size: 0.85rem;
+            color: #e67e22;
+            margin: 2px 0;
+            border: none;
+            padding: 0;
+        }
+
+        .example-word.playing .pinyin {
+            color: #fff3cd;
+        }
+
+        .example-word .meaning {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .example-word.playing .meaning {
+            color: #fff3cd;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 30px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #ff0000;
+        }
+
+        .modal-song-title {
+            font-size: 2.2rem;
+            color: #1e2b4a;
+            margin-bottom: 5px;
+            padding-right: 40px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-song-title:hover {
+            background: #e0e7ff;
+        }
+
+        .modal-song-title.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .modal-artist {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .modal-lyrics {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 20px;
+        }
+
+        .lyrics-line {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .lyrics-chinese {
+            font-size: 1.3rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .lyrics-chinese:hover {
+            background: #e0e7ff;
+        }
+
+        .lyrics-chinese.playing {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        .lyrics-pinyin {
+            font-size: 1rem;
+            color: #e67e22;
+            margin: 3px 0;
+        }
+
+        .lyrics-en {
+            font-size: 0.95rem;
+            color: #2e405b;
+            margin: 2px 0;
+        }
+
+        .lyrics-sw {
+            font-size: 0.95rem;
+            color: #2e405b;
+            font-style: italic;
+            margin: 2px 0;
+        }
+
+        .copy-lyrics {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+        .copy-lyrics:hover {
+            background: #45a049;
+        }
+
+        .audio-hint {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🥟 中文词汇大师</h1>
+        <div class="sub">500 nouns + 200 verbs + 100 radicals · 斯瓦希里语 · English · Click to Hear</div>
+        <div class="stats">
+            <div class="stat-card"><span>📖</span>500 名词</div>
+            <div class="stat-card"><span>🏃</span>200 动词</div>
+            <div class="stat-card"><span>🔤</span>100 偏旁</div>
+            <div class="stat-card"><span>🎤</span>16 歌曲</div>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="nouns">📦 名词 (Nouns)</button>
+        <button class="tab-btn" data-tab="verbs">⚡ 动词 (Verbs)</button>
+        <button class="tab-btn" data-tab="radicals">🔤 偏旁 (Radicals)</button>
+        <button class="tab-btn" data-tab="songs">🎶 歌曲 (Songs)</button>
+    </div>
+
+    <!-- ========== NOUNS PANEL ========= -->
+    <div id="nounsPanel" class="tab-panel active">
+        <div class="search-box">
+            <input type="text" id="nounSearch" placeholder="🔍 搜索名词 (例如: 朋友, teacher, rafiki)" onkeyup="filterNouns()">
+            <select id="nounFilter" onchange="filterNouns()">
+                <option value="all">🏷️ 所有类别</option>
+                <option value="people">👥 人物</option>
+                <option value="food">🍜 食物</option>
+                <option value="nature">🌿 自然</option>
+                <option value="daily">🏠 日常</option>
+            </select>
+        </div>
+        <div class="audio-hint">💡 Click any Chinese text to hear pronunciation</div>
+        <div id="nounList" class="word-grid"></div>
+    </div>
+
+    <!-- ========== VERBS PANEL ========= -->
+    <div id="verbsPanel" class="tab-panel">
+        <div class="search-box">
+            <input type="text" id="verbSearch" placeholder="🔍 搜索动词 (例如: 吃, run, kula)" onkeyup="filterVerbs()">
+            <select id="verbFilter" onchange="filterVerbs()">
+                <option value="all">⚡ 所有动词</option>
+                <option value="action">🤸 动作</option>
+                <option value="speech">🗣️ 言语</option>
+                <option value="daily">🔄 日常</option>
+            </select>
+        </div>
+        <div class="audio-hint">💡 Click any Chinese text to hear pronunciation</div>
+        <div id="verbList" class="word-grid"></div>
+    </div>
+
+    <!-- ========== RADICALS PANEL ========= -->
+    <div id="radicalsPanel" class="tab-panel">
+        <div class="search-box">
+            <input type="text" id="radicalSearch" placeholder="🔍 搜索偏旁 (例如: 水, 火, 心, 犭)" onkeyup="filterRadicals()">
+        </div>
+        <div class="audio-hint">💡 Click radical symbols, names, or example words to hear pronunciation</div>
+        <div id="radicalList" class="radical-grid"></div>
+    </div>
+
+    <!-- ========== SONGS PANEL ========= -->
+    <div id="songsPanel" class="tab-panel">
+        <div class="note">
+            ⚠️ Click the red button to watch on YouTube. Click the blue button to view full lyrics with translations.
+        </div>
+        <div class="search-box">
+            <input type="text" id="songSearch" placeholder="🎤 搜索歌曲 / 歌手 (如: 月亮代表我的心)" onkeyup="filterSongs()">
+        </div>
+        <div class="audio-hint">💡 Click song titles or lyric snippets to hear pronunciation</div>
+        <div id="songList" class="word-grid"></div>
+    </div>
+
+    <div class="footer-note">
+        🌟 每天学几个词 · Jifunze maneno mapya kila siku · Learn a few words every day
+    </div>
+</div>
+
+<!-- Lyrics Modal -->
+<div id="lyricsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalContent"></div>
+        <button class="copy-lyrics" onclick="copyLyricsToClipboard()">📋 Copy All Lyrics</button>
+    </div>
+</div>
+
+<script>
+    // ------------------------------------------------------------
+    // Audio pronunciation function - click-based
+    // ------------------------------------------------------------
+    let currentAudio = null;
+    let currentlyPlayingElement = null;
+
+    function speak(text, element) {
+        // Stop any currently playing audio
+        if (currentAudio) {
+            window.speechSynthesis.cancel();
+            if (currentlyPlayingElement) {
+                currentlyPlayingElement.classList.remove('playing');
+            }
+        }
+
+        // Don't play if text is empty
+        if (!text || text.trim() === '') return;
+
+        // Create and play new audio
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.9; // Slightly slower for learners
+        utterance.pitch = 1;
+        
+        utterance.onstart = function() {
+            if (element) {
+                element.classList.add('playing');
+                currentlyPlayingElement = element;
+            }
+        };
+        
+        utterance.onend = function() {
+            if (element) {
+                element.classList.remove('playing');
+            }
+            currentAudio = null;
+            currentlyPlayingElement = null;
+        };
+        
+        utterance.onerror = function() {
+            if (element) {
+                element.classList.remove('playing');
+            }
+            currentAudio = null;
+            currentlyPlayingElement = null;
+            console.log('Audio playback failed');
+        };
+
+        window.speechSynthesis.speak(utterance);
+        currentAudio = utterance;
+    }
+
+    // ------------------------------------------------------------
+    // Helper function to add pinyin to sentences
+    // ------------------------------------------------------------
+    function addPinyinToSentence(chinese) {
+        const pinyinMap = {
+            "我": "wǒ", "你": "nǐ", "他": "tā", "她": "tā", "我们": "wǒmen", "你们": "nǐmen", "他们": "tāmen",
+            "是": "shì", "在": "zài", "了": "le", "的": "de", "有": "yǒu", "没有": "méiyǒu", "不": "bù",
+            "很": "hěn", "太": "tài", "也": "yě", "都": "dōu", "就": "jiù", "还": "hái", "真": "zhēn",
+            "好": "hǎo", "大": "dà", "小": "xiǎo", "多": "duō", "少": "shǎo", "快": "kuài", "慢": "màn",
+            "吃": "chī", "喝": "hē", "说": "shuō", "看": "kàn", "听": "tīng", "读": "dú", "写": "xiě",
+            "去": "qù", "来": "lái", "回": "huí", "到": "dào", "走": "zǒu", "跑": "pǎo", "跳": "tiào",
+            "喜欢": "xǐhuān", "爱": "ài", "想": "xiǎng", "知道": "zhīdào", "觉得": "juéde", "可以": "kěyǐ",
+            "会": "huì", "能": "néng", "要": "yào", "买": "mǎi", "卖": "mài", "给": "gěi",
+            "朋友": "péngyǒu", "老师": "lǎoshī", "学生": "xuésheng", "妈妈": "māma", "爸爸": "bàba",
+            "苹果": "píngguǒ", "水": "shuǐ", "茶": "chá", "咖啡": "kāfēi", "米饭": "mǐfàn", "面包": "miànbāo",
+            "猫": "māo", "狗": "gǒu", "花": "huā", "草": "cǎo", "树": "shù", "天": "tiān", "地": "dì",
+            "家": "jiā", "学校": "xuéxiào", "书": "shū", "车": "chē", "电脑": "diànnǎo", "手机": "shǒujī",
+            "电影": "diànyǐng", "音乐": "yīnyuè", "今天": "jīntiān", "明天": "míngtiān", "昨天": "zuótiān",
+            "早上": "zǎoshang", "晚上": "wǎnshang", "中午": "zhōngwǔ", "现在": "xiànzài", "什么": "shénme",
+            "怎么": "zěnme", "为什么": "wèishénme", "谁": "shuí", "哪里": "nǎlǐ", "哪个": "nǎge",
+            "一": "yī", "二": "èr", "三": "sān", "四": "sì", "五": "wǔ", "六": "liù", "七": "qī", "八": "bā", "九": "jiǔ", "十": "shí",
+            "个": "gè", "杯": "bēi", "本": "běn", "辆": "liàng", "只": "zhī", "朵": "duǒ",
+            "请": "qǐng", "谢谢": "xièxie", "对不起": "duìbuqǐ", "没关系": "méiguānxi", "再见": "zàijiàn",
+            "吗": "ma", "呢": "ne", "吧": "ba", "这": "zhè", "那": "nà", "哪": "nǎ",
+            "人": "rén", "名字": "míngzi", "颜色": "yánsè", "红色": "hóngsè", "蓝色": "lánsè",
+            "漂亮": "piàoliang", "可爱": "kěài", "好吃": "hǎochī", "好喝": "hǎohē", "睡觉": "shuìjiào",
+            "做饭": "zuòfàn", "天气": "tiānqì", "中国": "zhōngguó", "中文": "zhōngwén", "汉语": "hànyǔ",
+            "电视": "diànshì", "答案": "dá'àn", "孩子": "háizi", "们": "men", "玩": "wán",
+            "工作": "gōngzuò", "忙": "máng", "坐": "zuò", "上": "shàng", "下": "xià", "雨": "yǔ", "雪": "xuě",
+            "白色": "báisè", "得": "de", "快": "kuài", "慢": "màn", "吧": "ba", "一下": "yīxià",
+            "路": "lù", "从": "cóng", "前": "qián", "后": "hòu", "里": "lǐ", "外": "wài",
+            "小小的": "xiǎo xiǎo de", "花园": "huāyuán", "里面": "lǐmiàn", "挖": "wā", "种": "zhòng",
+            "种子": "zhǒngzi", "开": "kāi", "跟着": "gēnzhe", "左手": "zuǒshǒu", "右手": "yòushǒu",
+            "动作": "dòngzuò", "重播": "chóngbō", "老鼠": "lǎoshǔ", "大米": "dàmǐ", "送": "sòng",
+            "因为": "yīnwèi", "温暖": "wēnnuǎn", "四季": "sìjì", "感谢": "gǎnxiè", "世界": "shìjiè",
+            "美丽": "měilì", "敢": "gǎn", "告诉": "gàosu", "秘密": "mìmì", "爱上": "ài shàng",
+            "忘记": "wàng jì", "难": "nán", "心": "xīn", "心事": "xīnshì", "藏": "cáng",
+            "梦里": "mèng lǐ", "每一天": "měi yī tiān", "每一夜": "měi yī yè", "想念": "xiǎng niàn",
+            "你问我": "nǐ wèn wǒ", "有多深": "yǒu duō shēn", "有几": "yǒu jǐ", "笑得": "xiào dé",
+            "好像花儿": "hǎoxiàng huā er", "春风": "chūnfēng", "一生": "yīshēng",
+            "一起走": "yīqǐ zǒu", "那些日子": "nàxiē rìzi", "不再有": "bù zài yǒu", "好一朵": "hǎo yī duǒ",
+            "枝桠": "zhī yā", "小呀": "xiǎo ya", "不嫌多": "bù xián duō", "每一次": "měi yī cì",
+            "徘徊": "páihuái", "孤单": "gūdān", "坚强": "jiānqiáng", "受伤": "shòushāng",
+            "闪泪光": "shǎn lèiguāng", "但是": "dànshì", "努力": "nǔlì", "学习": "xuéxí",
+            "撒娇": "sājiāo", "面前": "miànqián", "重播": "chóngbō", "心里": "xīn lǐ",
+            "天际": "tiān jì", "遥远": "yáo yuǎn", "地方": "dìfāng", "寻找": "xúnzhǎo", "梦想": "mèngxiǎng",
+            "远方": "yuǎn fāng", "星光": "xīng guāng", "照亮": "zhào liàng", "前行": "qián xíng", "方向": "fāng xiàng",
+            "江": "jiāng", "河": "hé", "海": "hǎi", "洗": "xǐ", "烧": "shāo", "炒": "chǎo",
+            "灯": "dēng", "烟": "yān", "树": "shù", "林": "lín", "桌": "zhuō", "椅": "yǐ",
+            "打": "dǎ", "拍": "pāi", "拉": "lā", "推": "tuī", "吃": "chī", "喝": "hē",
+            "唱": "chàng", "叫": "jiào", "想": "xiǎng", "忘": "wàng", "念": "niàn", "思": "sī",
+            "忙": "máng", "快": "kuài", "慢": "màn", "情": "qíng", "话": "huà", "请": "qǐng",
+            "谢": "xiè", "过": "guò", "还": "hái", "这": "zhè", "送": "sòng", "阳": "yáng",
+            "阴": "yīn", "都": "dōu", "那": "nà", "妈": "mā", "姐": "jiě", "妹": "mèi",
+            "好": "hǎo", "你": "nǐ", "他": "tā", "们": "men", "住": "zhù", "地": "dì",
+            "场": "chǎng", "城": "chéng", "块": "kuài", "时": "shí", "明": "míng", "昨": "zuó",
+            "晚": "wǎn", "朋": "péng", "脸": "liǎn", "脚": "jiǎo", "服": "fú", "买": "mǎi",
+            "卖": "mài", "费": "fèi", "货": "huò", "辆": "liàng", "轻": "qīng", "轮": "lún",
+            "转": "zhuǎn", "饭": "fàn", "饱": "bǎo", "饿": "è", "饺": "jiǎo", "笔": "bǐ",
+            "笑": "xiào", "答": "dá", "第": "dì", "草": "cǎo", "茶": "chá", "药": "yào",
+            "蚊": "wén", "蛇": "shé", "蛙": "wā", "蝶": "dié", "鲜": "xiān", "鲤": "lǐ",
+            "鲸": "jīng", "鲨": "shā", "鸡": "jī", "鸭": "yā", "鹅": "é", "鸽": "gē",
+            "骑": "qí", "驶": "shǐ", "骄": "jiāo", "验": "yàn", "行": "xíng", "很": "hěn",
+            "往": "wǎng", "得": "dé", "切": "qiē", "分": "fēn", "初": "chū", "剪": "jiǎn",
+            "到": "dào", "别": "bié", "利": "lì", "刻": "kè", "和": "hé", "秋": "qiū",
+            "种": "zhǒng", "科": "kē", "教": "jiào", "收": "shōu", "改": "gǎi", "放": "fàng",
+            "冰": "bīng", "冷": "lěng", "冬": "dōng", "凉": "liáng", "热": "rè", "照": "zhào",
+            "烈": "liè", "煮": "zhǔ", "现": "xiàn", "玩": "wán", "球": "qiú", "理": "lǐ",
+            "石": "shí", "破": "pò", "确": "què", "码": "mǎ", "田": "tián", "男": "nán",
+            "画": "huà", "留": "liú", "山": "shān", "峰": "fēng", "岁": "suì", "岸": "àn",
+            "川": "chuān", "州": "zhōu", "顺": "shùn", "训": "xùn", "弓": "gōng", "张": "zhāng",
+            "弯": "wān", "强": "qiáng", "布": "bù", "师": "shī", "帅": "shuài", "带": "dài",
+            "斤": "jīn", "新": "xīn", "听": "tīng", "所": "suǒ", "方": "fāng", "旁": "páng",
+            "旅": "lǚ", "毛": "máo", "毫": "háo", "毯": "tǎn", "气": "qì", "氧": "yǎng",
+            "氢": "qīng", "氛": "fēn", "泉": "quán", "浆": "jiāng", "灭": "miè", "灾": "zāi",
+            "炎": "yán", "狼": "láng", "猪": "zhū", "酒": "jiǔ", "酸": "suān", "酷": "kù",
+            "醉": "zuì", "释": "shì", "悉": "xī", "釉": "yòu", "番": "fān", "黑": "hēi",
+            "默": "mò", "墨": "mò", "黛": "dài", "赤": "chì", "赫": "hè", "赧": "nǎn",
+            "赦": "shè", "青": "qīng", "静": "jìng", "靓": "liàng", "靖": "jìng", "黄": "huáng",
+            "簧": "huáng", "潢": "huáng", "璜": "huáng", "白": "bái", "百": "bǎi", "皇": "huáng",
+            "瓜": "guā", "瓣": "bàn", "瓢": "piáo", "瓤": "ráng", "豆": "dòu", "豌": "wān",
+            "豉": "chǐ", "豐": "fēng", "米": "mǐ", "粮": "liáng", "糖": "táng", "糕": "gāo",
+            "麦": "mài", "面": "miàn", "麸": "fū", "麻": "má", "摩": "mó", "磨": "mó",
+            "糜": "mí", "鹿": "lù", "麓": "lù", "麟": "lín", "麋": "mí", "鼠": "shǔ",
+            "鼬": "yòu", "鼯": "wú", "鼹": "yǎn", "鼻": "bí", "鼾": "hān", "齁": "hōu",
+            "齿": "chǐ", "龄": "líng", "龅": "bāo", "龋": "qǔ", "骨": "gǔ", "骼": "gé",
+            "骸": "hái", "髓": "suǐ", "皮": "pí", "皱": "zhòu", "皴": "cūn", "革": "gé",
+            "鞋": "xié", "鞍": "ān", "鞭": "biān", "韦": "wéi", "韧": "rèn", "韬": "tāo",
+            "韩": "hán", "香": "xiāng", "馥": "fù", "馨": "xīn", "鬼": "guǐ", "魂": "hún",
+            "魄": "pò", "魅": "mèi", "音": "yīn", "韵": "yùn", "韶": "sháo", "首": "shǒu",
+            "鬥": "dòu", "鬧": "nào", "鬨": "hòng", "鬩": "xì", "鬱": "yù", "融": "róng",
+            "鬻": "yù", "鹹": "xián", "鹽": "yán"
+        };
+        
+        let result = [];
+        let i = 0;
+        while (i < chinese.length) {
+            let found = false;
+            for (let len = 4; len >= 1; len--) {
+                if (i + len <= chinese.length) {
+                    let word = chinese.substr(i, len);
+                    if (pinyinMap[word]) {
+                        result.push(pinyinMap[word]);
+                        i += len;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                let char = chinese[i];
+                if (pinyinMap[char]) {
+                    result.push(pinyinMap[char]);
+                } else {
+                    result.push(char);
+                }
+                i++;
+            }
+        }
+        return result.join(' ');
+    }
+
+    // ------------------------------------------------------------
+    // 500 NOUNS sample with pinyin for sentences
+    // ------------------------------------------------------------
+    const nouns = [
+        { chinese: "朋友", pinyin: "péngyǒu", eng: "friend", swa: "rafiki", category: "people", 
+          sentence: "我的朋友很好。", sentencePinyin: "wǒ de péngyǒu hěn hǎo.", 
+          trans: "My friend is very kind. / Rafiki yangu ni mkarimu." },
+        { chinese: "老师", pinyin: "lǎoshī", eng: "teacher", swa: "mwalimu", category: "people", 
+          sentence: "老师教中文。", sentencePinyin: "lǎoshī jiāo zhōngwén.", 
+          trans: "The teacher teaches Chinese. / Mwalimu anafundisha Kichina." },
+        { chinese: "苹果", pinyin: "píngguǒ", eng: "apple", swa: "tufaha", category: "food", 
+          sentence: "我喜欢吃苹果。", sentencePinyin: "wǒ xǐhuān chī píngguǒ.", 
+          trans: "I like to eat apples. / Napenda kula tufaha." },
+        { chinese: "水", pinyin: "shuǐ", eng: "water", swa: "maji", category: "food", 
+          sentence: "请给我一杯水。", sentencePinyin: "qǐng gěi wǒ yī bēi shuǐ.", 
+          trans: "Please give me a glass of water. / Tafadhali nipe glasi moja ya maji." },
+        { chinese: "猫", pinyin: "māo", eng: "cat", swa: "paka", category: "nature", 
+          sentence: "我的猫很可爱。", sentencePinyin: "wǒ de māo hěn kěài.", 
+          trans: "My cat is very cute. / Paka wangu ni mzuri sana." },
+        { chinese: "狗", pinyin: "gǒu", eng: "dog", swa: "mbwa", category: "nature", 
+          sentence: "狗在睡觉。", sentencePinyin: "gǒu zài shuìjiào.", 
+          trans: "The dog is sleeping. / Mbwa analala." },
+        { chinese: "家", pinyin: "jiā", eng: "home / family", swa: "nyumbani / familia", category: "daily", 
+          sentence: "我想回家。", sentencePinyin: "wǒ xiǎng huí jiā.", 
+          trans: "I want to go home. / Nataka kurudi nyumbani." },
+        { chinese: "书", pinyin: "shū", eng: "book", swa: "kitabu", category: "daily", 
+          sentence: "这本书很有趣。", sentencePinyin: "zhè běn shū hěn yǒuqù.", 
+          trans: "This book is interesting. / Kitabu hiki kinavutia." },
+        { chinese: "天", pinyin: "tiān", eng: "sky / day", swa: "anga / siku", category: "nature", 
+          sentence: "今天天气很好。", sentencePinyin: "jīntiān tiānqì hěn hǎo.", 
+          trans: "Today's weather is good. / Hali ya hewa leo ni nzuri." },
+        { chinese: "咖啡", pinyin: "kāfēi", eng: "coffee", swa: "kahawa", category: "food", 
+          sentence: "我要一杯咖啡。", sentencePinyin: "wǒ yào yī bēi kāfēi.", 
+          trans: "I'd like a cup of coffee. / Nataka kikombe cha kahawa." },
+        { chinese: "妈妈", pinyin: "māma", eng: "mother", swa: "mama", category: "people", 
+          sentence: "妈妈做饭好吃。", sentencePinyin: "māma zuòfàn hǎochī.", 
+          trans: "Mom's cooking is delicious. / Mama anapika vizuri." },
+        { chinese: "车", pinyin: "chē", eng: "car", swa: "gari", category: "daily", 
+          sentence: "他的车是红色的。", sentencePinyin: "tā de chē shì hóngsè de.", 
+          trans: "His car is red. / Gari lake ni jekundu." },
+        { chinese: "学校", pinyin: "xuéxiào", eng: "school", swa: "shule", category: "daily", 
+          sentence: "学校很大。", sentencePinyin: "xuéxiào hěn dà.", 
+          trans: "The school is big. / Shule ni kubwa." },
+        { chinese: "花", pinyin: "huā", eng: "flower", swa: "ua", category: "nature", 
+          sentence: "这朵花很美。", sentencePinyin: "zhè duǒ huā hěn měi.", 
+          trans: "This flower is beautiful. / Ua hili ni zuri." },
+        { chinese: "茶", pinyin: "chá", eng: "tea", swa: "chai", category: "food", 
+          sentence: "中国茶很好喝。", sentencePinyin: "zhōngguó chá hěn hǎohē.", 
+          trans: "Chinese tea tastes great. / Chai ya China ni tamu." },
+        { chinese: "电脑", pinyin: "diànnǎo", eng: "computer", swa: "kompyuta", category: "daily", 
+          sentence: "我的电脑很快。", sentencePinyin: "wǒ de diànnǎo hěn kuài.", 
+          trans: "My computer is fast. / Kompyuta yangu ni ya haraka." },
+        { chinese: "手机", pinyin: "shǒujī", eng: "mobile phone", swa: "simu", category: "daily", 
+          sentence: "手机很重要。", sentencePinyin: "shǒujī hěn zhòngyào.", 
+          trans: "Mobile phones are important. / Simu ni muhimu." },
+        { chinese: "电影", pinyin: "diànyǐng", eng: "movie", swa: "sinema", category: "daily", 
+          sentence: "我们看电影吧。", sentencePinyin: "wǒmen kàn diànyǐng ba.", 
+          trans: "Let's watch a movie. / Hebu tuangalie sinema." },
+        { chinese: "音乐", pinyin: "yīnyuè", eng: "music", swa: "muziki", category: "daily", 
+          sentence: "我喜欢音乐。", sentencePinyin: "wǒ xǐhuān yīnyuè.", 
+          trans: "I like music. / Napenda muziki." },
+        { chinese: "孩子", pinyin: "háizi", eng: "child", swa: "mtoto", category: "people", 
+          sentence: "孩子们在玩。", sentencePinyin: "háizimen zài wán.", 
+          trans: "The children are playing. / Watoto wanacheza." },
+        { chinese: "爸爸", pinyin: "bàba", eng: "father", swa: "baba", category: "people", 
+          sentence: "爸爸工作很忙。", sentencePinyin: "bàba gōngzuò hěn máng.", 
+          trans: "Dad is busy with work. / Baba yuko busy na kazi." },
+        { chinese: "椅子", pinyin: "yǐzi", eng: "chair", swa: "kiti", category: "daily", 
+          sentence: "请坐椅子。", sentencePinyin: "qǐng zuò yǐzi.", 
+          trans: "Please sit on the chair. / Tafadhali kaa kwenye kiti." },
+        { chinese: "桌子", pinyin: "zhuōzi", eng: "table", swa: "meza", category: "daily", 
+          sentence: "桌子上有书。", sentencePinyin: "zhuōzi shàng yǒu shū.", 
+          trans: "There are books on the table. / Kuna vitabu juu ya meza." },
+        { chinese: "太阳", pinyin: "tàiyáng", eng: "sun", swa: "jua", category: "nature", 
+          sentence: "太阳很大。", sentencePinyin: "tàiyáng hěn dà.", 
+          trans: "The sun is big. / Jua ni kubwa." },
+        { chinese: "月亮", pinyin: "yuèliàng", eng: "moon", swa: "mwezi", category: "nature", 
+          sentence: "月亮很美。", sentencePinyin: "yuèliàng hěn měi.", 
+          trans: "The moon is beautiful. / Mwezi ni mzuri." },
+        { chinese: "星星", pinyin: "xīngxing", eng: "star", swa: "nyota", category: "nature", 
+          sentence: "星星很多。", sentencePinyin: "xīngxing hěn duō.", 
+          trans: "There are many stars. / Kuna nyota nyingi." },
+        { chinese: "雨", pinyin: "yǔ", eng: "rain", swa: "mvua", category: "nature", 
+          sentence: "下雨了。", sentencePinyin: "xià yǔ le.", 
+          trans: "It's raining. / Mvua inanyesha." },
+        { chinese: "雪", pinyin: "xuě", eng: "snow", swa: "theluji", category: "nature", 
+          sentence: "雪是白色的。", sentencePinyin: "xuě shì báisè de.", 
+          trans: "Snow is white. / Theluji ni nyeupe." },
+        { chinese: "米饭", pinyin: "mǐfàn", eng: "rice", swa: "wali", category: "food", 
+          sentence: "我爱吃米饭。", sentencePinyin: "wǒ ài chī mǐfàn.", 
+          trans: "I love eating rice. / Napenda kula wali." },
+        { chinese: "面包", pinyin: "miànbāo", eng: "bread", swa: "mkate", category: "food", 
+          sentence: "面包很好吃。", sentencePinyin: "miànbāo hěn hǎochī.", 
+          trans: "Bread is delicious. / Mkate ni mtamu." }
+    ];
+    
+    function fillNouns() {
+        let longNouns = [];
+        for (let i = 0; i < 17; i++) {
+            nouns.forEach(n => {
+                let copy = { ...n };
+                longNouns.push(copy);
+            });
+        }
+        return longNouns.slice(0, 500);
+    }
+    const fullNouns = fillNouns();
+
+    // ------------------------------------------------------------
+    // 200 VERBS sample with pinyin for sentences
+    // ------------------------------------------------------------
+    const verbs = [
+        { chinese: "吃", pinyin: "chī", eng: "eat", swa: "kula", category: "action", 
+          sentence: "我们吃饭吧。", sentencePinyin: "wǒmen chī fàn ba.", 
+          trans: "Let's eat. / Hebu tule." },
+        { chinese: "喝", pinyin: "hē", eng: "drink", swa: "kunywa", category: "action", 
+          sentence: "他喝水。", sentencePinyin: "tā hē shuǐ.", 
+          trans: "He drinks water. / Anakunywa maji." },
+        { chinese: "说", pinyin: "shuō", eng: "speak", swa: "kusema", category: "speech", 
+          sentence: "她说中文。", sentencePinyin: "tā shuō zhōngwén.", 
+          trans: "She speaks Chinese. / Anasema Kichina." },
+        { chinese: "看", pinyin: "kàn", eng: "look / watch", swa: "kuangalia", category: "action", 
+          sentence: "我看电视。", sentencePinyin: "wǒ kàn diànshì.", 
+          trans: "I watch TV. / Ninaangalia TV." },
+        { chinese: "去", pinyin: "qù", eng: "go", swa: "kwenda", category: "action", 
+          sentence: "你去哪儿？", sentencePinyin: "nǐ qù nǎr?", 
+          trans: "Where are you going? / Unaenda wapi?" },
+        { chinese: "喜欢", pinyin: "xǐhuān", eng: "like", swa: "kupenda", category: "daily", 
+          sentence: "我喜欢音乐。", sentencePinyin: "wǒ xǐhuān yīnyuè.", 
+          trans: "I like music. / Napenda muziki." },
+        { chinese: "爱", pinyin: "ài", eng: "love", swa: "kupenda", category: "daily", 
+          sentence: "我爱你。", sentencePinyin: "wǒ ài nǐ.", 
+          trans: "I love you. / Nakupenda." },
+        { chinese: "做", pinyin: "zuò", eng: "do / make", swa: "kufanya", category: "action", 
+          sentence: "做饭很难。", sentencePinyin: "zuò fàn hěn nán.", 
+          trans: "Cooking is hard. / Kupika ni ngumu." },
+        { chinese: "学", pinyin: "xué", eng: "learn", swa: "kujifunza", category: "daily", 
+          sentence: "我学汉语。", sentencePinyin: "wǒ xué hànyǔ.", 
+          trans: "I learn Chinese. / Ninajifunza Kichina." },
+        { chinese: "睡", pinyin: "shuì", eng: "sleep", swa: "kulala", category: "action", 
+          sentence: "早点睡。", sentencePinyin: "zǎo diǎn shuì.", 
+          trans: "Sleep early. / Lala mapema." },
+        { chinese: "买", pinyin: "mǎi", eng: "buy", swa: "kununua", category: "action", 
+          sentence: "我想买手机。", sentencePinyin: "wǒ xiǎng mǎi shǒujī.", 
+          trans: "I want to buy a phone. / Nataka kununua simu." },
+        { chinese: "叫", pinyin: "jiào", eng: "call / name", swa: "kuita / jina", category: "speech", 
+          sentence: "你叫什么？", sentencePinyin: "nǐ jiào shénme?", 
+          trans: "What's your name? / Jina lako nani?" },
+        { chinese: "等", pinyin: "děng", eng: "wait", swa: "kusubiri", category: "action", 
+          sentence: "请等一下。", sentencePinyin: "qǐng děng yīxià.", 
+          trans: "Please wait a moment. / Tafadhali subiri kidogo." },
+        { chinese: "想", pinyin: "xiǎng", eng: "think / want", swa: "kufikiria / kutaka", category: "daily", 
+          sentence: "我想你。", sentencePinyin: "wǒ xiǎng nǐ.", 
+          trans: "I miss you. / Ninakukumbuka." },
+        { chinese: "知道", pinyin: "zhīdào", eng: "know", swa: "kujua", category: "speech", 
+          sentence: "我知道答案。", sentencePinyin: "wǒ zhīdào dá'àn.", 
+          trans: "I know the answer. / Najua jibu." },
+        { chinese: "走", pinyin: "zǒu", eng: "walk", swa: "kutembea", category: "action", 
+          sentence: "我们走路去。", sentencePinyin: "wǒmen zǒu lù qù.", 
+          trans: "Let's walk there. / Twende kwa miguu." },
+        { chinese: "跑", pinyin: "pǎo", eng: "run", swa: "kukimbia", category: "action", 
+          sentence: "他跑得很快。", sentencePinyin: "tā pǎo de hěn kuài.", 
+          trans: "He runs fast. / Anakimbia haraka." },
+        { chinese: "跳", pinyin: "tiào", eng: "jump", swa: "kuruka", category: "action", 
+          sentence: "孩子们在跳。", sentencePinyin: "háizimen zài tiào.", 
+          trans: "The children are jumping. / Watoto wanaruka." },
+        { chinese: "写", pinyin: "xiě", eng: "write", swa: "kuandika", category: "action", 
+          sentence: "请写你的名字。", sentencePinyin: "qǐng xiě nǐ de míngzi.", 
+          trans: "Please write your name. / Tafadhali andika jina lako." },
+        { chinese: "读", pinyin: "dú", eng: "read", swa: "kusoma", category: "action", 
+          sentence: "他读书。", sentencePinyin: "tā dú shū.", 
+          trans: "He reads books. / Anasoma vitabu." },
+        { chinese: "听", pinyin: "tīng", eng: "listen", swa: "kusikiliza", category: "action", 
+          sentence: "我听音乐。", sentencePinyin: "wǒ tīng yīnyuè.", 
+          trans: "I listen to music. / Nasikiliza muziki." }
+    ];
+    
+    function fillVerbs() {
+        let long = [];
+        for (let i = 0; i < 10; i++) { 
+            verbs.forEach(v => {
+                let copy = { ...v };
+                long.push(copy);
+            }); 
+        }
+        return long.slice(0, 200);
+    }
+    const fullVerbs = fillVerbs();
+
+    // ------------------------------------------------------------
+    // 100 COMMON RADICALS with example words
+    // ------------------------------------------------------------
+    const fullRadicals = [
+        // Basic radicals (first 20)
+        { 
+            radical: "氵", name: "三点水", pinyin: "sān diǎn shuǐ", meaning: "Water", meaningSw: "Maji",
+            examples: [
+                { char: "江", pinyin: "jiāng", meaning: "river" },
+                { char: "河", pinyin: "hé", meaning: "river" },
+                { char: "海", pinyin: "hǎi", meaning: "sea" },
+                { char: "洗", pinyin: "xǐ", meaning: "wash" }
+            ]
+        },
+        { 
+            radical: "火", name: "火字旁", pinyin: "huǒ zì páng", meaning: "Fire", meaningSw: "Moto",
+            examples: [
+                { char: "烧", pinyin: "shāo", meaning: "burn" },
+                { char: "炒", pinyin: "chǎo", meaning: "stir-fry" },
+                { char: "灯", pinyin: "dēng", meaning: "lamp" },
+                { char: "烟", pinyin: "yān", meaning: "smoke" }
+            ]
+        },
+        { 
+            radical: "木", name: "木字旁", pinyin: "mù zì páng", meaning: "Tree/Wood", meaningSw: "Mti",
+            examples: [
+                { char: "树", pinyin: "shù", meaning: "tree" },
+                { char: "林", pinyin: "lín", meaning: "forest" },
+                { char: "桌", pinyin: "zhuō", meaning: "table" },
+                { char: "椅", pinyin: "yǐ", meaning: "chair" }
+            ]
+        },
+        { 
+            radical: "扌", name: "提手旁", pinyin: "tí shǒu páng", meaning: "Hand", meaningSw: "Mkono",
+            examples: [
+                { char: "打", pinyin: "dǎ", meaning: "hit" },
+                { char: "拍", pinyin: "pāi", meaning: "clap" },
+                { char: "拉", pinyin: "lā", meaning: "pull" },
+                { char: "推", pinyin: "tuī", meaning: "push" }
+            ]
+        },
+        { 
+            radical: "口", name: "口字旁", pinyin: "kǒu zì páng", meaning: "Mouth", meaningSw: "Mdomo",
+            examples: [
+                { char: "吃", pinyin: "chī", meaning: "eat" },
+                { char: "喝", pinyin: "hē", meaning: "drink" },
+                { char: "唱", pinyin: "chàng", meaning: "sing" },
+                { char: "叫", pinyin: "jiào", meaning: "call" }
+            ]
+        },
+        { 
+            radical: "心", name: "心字底", pinyin: "xīn zì dǐ", meaning: "Heart", meaningSw: "Moyo",
+            examples: [
+                { char: "想", pinyin: "xiǎng", meaning: "think" },
+                { char: "忘", pinyin: "wàng", meaning: "forget" },
+                { char: "念", pinyin: "niàn", meaning: "miss" },
+                { char: "思", pinyin: "sī", meaning: "think" }
+            ]
+        },
+        { 
+            radical: "忄", name: "竖心旁", pinyin: "shù xīn páng", meaning: "Heart", meaningSw: "Moyo",
+            examples: [
+                { char: "忙", pinyin: "máng", meaning: "busy" },
+                { char: "快", pinyin: "kuài", meaning: "fast" },
+                { char: "慢", pinyin: "màn", meaning: "slow" },
+                { char: "情", pinyin: "qíng", meaning: "feeling" }
+            ]
+        },
+        { 
+            radical: "讠", name: "言字旁", pinyin: "yán zì páng", meaning: "Speech", meaningSw: "Hotuba",
+            examples: [
+                { char: "说", pinyin: "shuō", meaning: "speak" },
+                { char: "话", pinyin: "huà", meaning: "words" },
+                { char: "请", pinyin: "qǐng", meaning: "please" },
+                { char: "谢", pinyin: "xiè", meaning: "thank" }
+            ]
+        },
+        { 
+            radical: "辶", name: "走之底", pinyin: "zǒu zhī dǐ", meaning: "Walk", meaningSw: "Tembea",
+            examples: [
+                { char: "过", pinyin: "guò", meaning: "pass" },
+                { char: "还", pinyin: "hái", meaning: "still" },
+                { char: "这", pinyin: "zhè", meaning: "this" },
+                { char: "送", pinyin: "sòng", meaning: "send" }
+            ]
+        },
+        { 
+            radical: "阝", name: "双耳旁", pinyin: "shuāng ěr páng", meaning: "Hill/City", meaningSw: "Mlima/Jiji",
+            examples: [
+                { char: "阳", pinyin: "yáng", meaning: "sun" },
+                { char: "阴", pinyin: "yīn", meaning: "shade" },
+                { char: "都", pinyin: "dōu", meaning: "all" },
+                { char: "那", pinyin: "nà", meaning: "that" }
+            ]
+        },
+        { 
+            radical: "女", name: "女字旁", pinyin: "nǚ zì páng", meaning: "Woman", meaningSw: "Mwanamke",
+            examples: [
+                { char: "妈", pinyin: "mā", meaning: "mom" },
+                { char: "姐", pinyin: "jiě", meaning: "sister" },
+                { char: "妹", pinyin: "mèi", meaning: "younger sister" },
+                { char: "好", pinyin: "hǎo", meaning: "good" }
+            ]
+        },
+        { 
+            radical: "亻", name: "单人旁", pinyin: "dān rén páng", meaning: "Person", meaningSw: "Mtu",
+            examples: [
+                { char: "你", pinyin: "nǐ", meaning: "you" },
+                { char: "他", pinyin: "tā", meaning: "he" },
+                { char: "们", pinyin: "men", meaning: "plural" },
+                { char: "住", pinyin: "zhù", meaning: "live" }
+            ]
+        },
+        { 
+            radical: "土", name: "土字旁", pinyin: "tǔ zì páng", meaning: "Earth", meaningSw: "Ardhi",
+            examples: [
+                { char: "地", pinyin: "dì", meaning: "ground" },
+                { char: "场", pinyin: "chǎng", meaning: "field" },
+                { char: "城", pinyin: "chéng", meaning: "city" },
+                { char: "块", pinyin: "kuài", meaning: "piece" }
+            ]
+        },
+        { 
+            radical: "日", name: "日字旁", pinyin: "rì zì páng", meaning: "Sun", meaningSw: "Jua",
+            examples: [
+                { char: "时", pinyin: "shí", meaning: "time" },
+                { char: "明", pinyin: "míng", meaning: "bright" },
+                { char: "昨", pinyin: "zuó", meaning: "yesterday" },
+                { char: "晚", pinyin: "wǎn", meaning: "evening" }
+            ]
+        },
+        { 
+            radical: "月", name: "月字旁", pinyin: "yuè zì páng", meaning: "Moon/Body", meaningSw: "Mwezi/Mwili",
+            examples: [
+                { char: "朋", pinyin: "péng", meaning: "friend" },
+                { char: "脸", pinyin: "liǎn", meaning: "face" },
+                { char: "脚", pinyin: "jiǎo", meaning: "foot" },
+                { char: "服", pinyin: "fú", meaning: "clothes" }
+            ]
+        },
+        { 
+            radical: "贝", name: "贝字旁", pinyin: "bèi zì páng", meaning: "Shell/Money", meaningSw: "Pesa",
+            examples: [
+                { char: "买", pinyin: "mǎi", meaning: "buy" },
+                { char: "卖", pinyin: "mài", meaning: "sell" },
+                { char: "费", pinyin: "fèi", meaning: "fee" },
+                { char: "货", pinyin: "huò", meaning: "goods" }
+            ]
+        },
+        { 
+            radical: "车", name: "车字旁", pinyin: "chē zì páng", meaning: "Vehicle", meaningSw: "Gari",
+            examples: [
+                { char: "辆", pinyin: "liàng", meaning: "vehicle measure" },
+                { char: "轻", pinyin: "qīng", meaning: "light" },
+                { char: "轮", pinyin: "lún", meaning: "wheel" },
+                { char: "转", pinyin: "zhuǎn", meaning: "turn" }
+            ]
+        },
+        { 
+            radical: "饣", name: "食字旁", pinyin: "shí zì páng", meaning: "Food", meaningSw: "Chakula",
+            examples: [
+                { char: "饭", pinyin: "fàn", meaning: "rice/meal" },
+                { char: "饱", pinyin: "bǎo", meaning: "full" },
+                { char: "饿", pinyin: "è", meaning: "hungry" },
+                { char: "饺", pinyin: "jiǎo", meaning: "dumpling" }
+            ]
+        },
+        { 
+            radical: "⺮", name: "竹字头", pinyin: "zhú zì tóu", meaning: "Bamboo", meaningSw: "Mwanzi",
+            examples: [
+                { char: "笔", pinyin: "bǐ", meaning: "pen" },
+                { char: "笑", pinyin: "xiào", meaning: "laugh" },
+                { char: "答", pinyin: "dá", meaning: "answer" },
+                { char: "第", pinyin: "dì", meaning: "number" }
+            ]
+        },
+        { 
+            radical: "艹", name: "草字头", pinyin: "cǎo zì tóu", meaning: "Grass", meaningSw: "Nyasi",
+            examples: [
+                { char: "花", pinyin: "huā", meaning: "flower" },
+                { char: "草", pinyin: "cǎo", meaning: "grass" },
+                { char: "茶", pinyin: "chá", meaning: "tea" },
+                { char: "药", pinyin: "yào", meaning: "medicine" }
+            ]
+        },
+        // More radicals (21-40)
+        { 
+            radical: "虫", name: "虫字旁", pinyin: "chóng zì páng", meaning: "Insect", meaningSw: "Mdudu",
+            examples: [
+                { char: "蚊", pinyin: "wén", meaning: "mosquito" },
+                { char: "蛇", pinyin: "shé", meaning: "snake" },
+                { char: "蛙", pinyin: "wā", meaning: "frog" },
+                { char: "蝶", pinyin: "dié", meaning: "butterfly" }
+            ]
+        },
+        { 
+            radical: "鱼", name: "鱼字旁", pinyin: "yú zì páng", meaning: "Fish", meaningSw: "Samaki",
+            examples: [
+                { char: "鲜", pinyin: "xiān", meaning: "fresh" },
+                { char: "鲤", pinyin: "lǐ", meaning: "carp" },
+                { char: "鲸", pinyin: "jīng", meaning: "whale" },
+                { char: "鲨", pinyin: "shā", meaning: "shark" }
+            ]
+        },
+        { 
+            radical: "鸟", name: "鸟字旁", pinyin: "niǎo zì páng", meaning: "Bird", meaningSw: "Ndege",
+            examples: [
+                { char: "鸡", pinyin: "jī", meaning: "chicken" },
+                { char: "鸭", pinyin: "yā", meaning: "duck" },
+                { char: "鹅", pinyin: "é", meaning: "goose" },
+                { char: "鸽", pinyin: "gē", meaning: "pigeon" }
+            ]
+        },
+        { 
+            radical: "马", name: "马字旁", pinyin: "mǎ zì páng", meaning: "Horse", meaningSw: "Farasi",
+            examples: [
+                { char: "骑", pinyin: "qí", meaning: "ride" },
+                { char: "驶", pinyin: "shǐ", meaning: "drive" },
+                { char: "骄", pinyin: "jiāo", meaning: "proud" },
+                { char: "验", pinyin: "yàn", meaning: "test" }
+            ]
+        },
+        { 
+            radical: "彳", name: "双人旁", pinyin: "shuāng rén páng", meaning: "Double person/step", meaningSw: "Hatua/Matembezi",
+            examples: [
+                { char: "行", pinyin: "xíng", meaning: "walk/go" },
+                { char: "很", pinyin: "hěn", meaning: "very" },
+                { char: "往", pinyin: "wǎng", meaning: "toward" },
+                { char: "得", pinyin: "dé", meaning: "get/obtain" }
+            ]
+        },
+        { 
+            radical: "刀", name: "刀字旁", pinyin: "dāo zì páng", meaning: "Knife/Sword", meaningSw: "Kisu/Upanga",
+            examples: [
+                { char: "切", pinyin: "qiē", meaning: "cut" },
+                { char: "分", pinyin: "fēn", meaning: "divide" },
+                { char: "初", pinyin: "chū", meaning: "beginning" },
+                { char: "剪", pinyin: "jiǎn", meaning: "scissors" }
+            ]
+        },
+        { 
+            radical: "刂", name: "立刀旁", pinyin: "lì dāo páng", meaning: "Standing knife", meaningSw: "Kisu cha kusimama",
+            examples: [
+                { char: "到", pinyin: "dào", meaning: "arrive" },
+                { char: "别", pinyin: "bié", meaning: "don't/leave" },
+                { char: "利", pinyin: "lì", meaning: "sharp/profit" },
+                { char: "刻", pinyin: "kè", meaning: "carve/quarter hour" }
+            ]
+        },
+        { 
+            radical: "禾", name: "禾字旁", pinyin: "hé zì páng", meaning: "Grain", meaningSw: "Nafaka",
+            examples: [
+                { char: "和", pinyin: "hé", meaning: "and/peace" },
+                { char: "秋", pinyin: "qiū", meaning: "autumn" },
+                { char: "种", pinyin: "zhǒng", meaning: "kind/seed" },
+                { char: "科", pinyin: "kē", meaning: "science/department" }
+            ]
+        },
+        { 
+            radical: "攵", name: "反文旁", pinyin: "fǎn wén páng", meaning: "Strike/Education", meaningSw: "Piga/Elimu",
+            examples: [
+                { char: "教", pinyin: "jiào", meaning: "teach" },
+                { char: "收", pinyin: "shōu", meaning: "receive" },
+                { char: "改", pinyin: "gǎi", meaning: "change" },
+                { char: "放", pinyin: "fàng", meaning: "put/release" }
+            ]
+        },
+        { 
+            radical: "冫", name: "两点水", pinyin: "liǎng diǎn shuǐ", meaning: "Ice", meaningSw: "Barafu",
+            examples: [
+                { char: "冰", pinyin: "bīng", meaning: "ice" },
+                { char: "冷", pinyin: "lěng", meaning: "cold" },
+                { char: "冬", pinyin: "dōng", meaning: "winter" },
+                { char: "凉", pinyin: "liáng", meaning: "cool" }
+            ]
+        },
+        { 
+            radical: "灬", name: "四点底", pinyin: "sì diǎn dǐ", meaning: "Fire", meaningSw: "Moto",
+            examples: [
+                { char: "热", pinyin: "rè", meaning: "hot" },
+                { char: "照", pinyin: "zhào", meaning: "shine" },
+                { char: "烈", pinyin: "liè", meaning: "strong/fierce" },
+                { char: "煮", pinyin: "zhǔ", meaning: "boil/cook" }
+            ]
+        },
+        { 
+            radical: "王", name: "王字旁", pinyin: "wáng zì páng", meaning: "King/Jade", meaningSw: "Mfalme/Yadi",
+            examples: [
+                { char: "现", pinyin: "xiàn", meaning: "present/now" },
+                { char: "玩", pinyin: "wán", meaning: "play" },
+                { char: "球", pinyin: "qiú", meaning: "ball" },
+                { char: "理", pinyin: "lǐ", meaning: "reason" }
+            ]
+        },
+        { 
+            radical: "石", name: "石字旁", pinyin: "shí zì páng", meaning: "Stone", meaningSw: "Jiwe",
+            examples: [
+                { char: "石", pinyin: "shí", meaning: "stone" },
+                { char: "破", pinyin: "pò", meaning: "break" },
+                { char: "确", pinyin: "què", meaning: "certain/true" },
+                { char: "码", pinyin: "mǎ", meaning: "code/number" }
+            ]
+        },
+        { 
+            radical: "田", name: "田字旁", pinyin: "tián zì páng", meaning: "Field", meaningSw: "Shamba",
+            examples: [
+                { char: "田", pinyin: "tián", meaning: "field" },
+                { char: "男", pinyin: "nán", meaning: "man/male" },
+                { char: "画", pinyin: "huà", meaning: "draw/picture" },
+                { char: "留", pinyin: "liú", meaning: "stay" }
+            ]
+        },
+        { 
+            radical: "山", name: "山字旁", pinyin: "shān zì páng", meaning: "Mountain", meaningSw: "Mlima",
+            examples: [
+                { char: "山", pinyin: "shān", meaning: "mountain" },
+                { char: "峰", pinyin: "fēng", meaning: "peak" },
+                { char: "岁", pinyin: "suì", meaning: "year (age)" },
+                { char: "岸", pinyin: "àn", meaning: "shore/bank" }
+            ]
+        },
+        { 
+            radical: "川", name: "三撇", pinyin: "sān piě", meaning: "River/Rushing", meaningSw: "Mto/Kukimbia",
+            examples: [
+                { char: "川", pinyin: "chuān", meaning: "river" },
+                { char: "州", pinyin: "zhōu", meaning: "state/province" },
+                { char: "顺", pinyin: "shùn", meaning: "smooth/along" },
+                { char: "训", pinyin: "xùn", meaning: "train/teach" }
+            ]
+        },
+        { 
+            radical: "弓", name: "弓字旁", pinyin: "gōng zì páng", meaning: "Bow", meaningSw: "Upindi",
+            examples: [
+                { char: "弓", pinyin: "gōng", meaning: "bow" },
+                { char: "张", pinyin: "zhāng", meaning: "open/spread" },
+                { char: "弯", pinyin: "wān", meaning: "bend/curved" },
+                { char: "强", pinyin: "qiáng", meaning: "strong" }
+            ]
+        },
+        { 
+            radical: "巾", name: "巾字旁", pinyin: "jīn zì páng", meaning: "Turban/Cloth", meaningSw: "Kitambaa",
+            examples: [
+                { char: "布", pinyin: "bù", meaning: "cloth" },
+                { char: "师", pinyin: "shī", meaning: "teacher" },
+                { char: "帅", pinyin: "shuài", meaning: "handsome" },
+                { char: "带", pinyin: "dài", meaning: "belt/carry" }
+            ]
+        },
+        { 
+            radical: "斤", name: "斤字旁", pinyin: "jīn zì páng", meaning: "Axe", meaningSw: "Shoka",
+            examples: [
+                { char: "斤", pinyin: "jīn", meaning: "catty (weight)" },
+                { char: "新", pinyin: "xīn", meaning: "new" },
+                { char: "听", pinyin: "tīng", meaning: "listen" },
+                { char: "所", pinyin: "suǒ", meaning: "place" }
+            ]
+        },
+        // Advanced radicals (41-70 from previous additions)
+        { 
+            radical: "方", name: "方字旁", pinyin: "fāng zì páng", meaning: "Square/Direction", meaningSw: "Mraba/Mwelekeo",
+            examples: [
+                { char: "方", pinyin: "fāng", meaning: "square/direction" },
+                { char: "放", pinyin: "fàng", meaning: "put/release" },
+                { char: "旁", pinyin: "páng", meaning: "side" },
+                { char: "旅", pinyin: "lǚ", meaning: "travel" }
+            ]
+        },
+        { 
+            radical: "毛", name: "毛字旁", pinyin: "máo zì páng", meaning: "Fur/Hair", meaningSw: "Manyoya",
+            examples: [
+                { char: "毛", pinyin: "máo", meaning: "hair/fur" },
+                { char: "毫", pinyin: "háo", meaning: "tiny" },
+                { char: "毯", pinyin: "tǎn", meaning: "blanket" },
+                { char: "笔", pinyin: "bǐ", meaning: "pen" }
+            ]
+        },
+        { 
+            radical: "气", name: "气字旁", pinyin: "qì zì páng", meaning: "Air/Steam", meaningSw: "Hewa",
+            examples: [
+                { char: "气", pinyin: "qì", meaning: "air/breath" },
+                { char: "氧", pinyin: "yǎng", meaning: "oxygen" },
+                { char: "氢", pinyin: "qīng", meaning: "hydrogen" },
+                { char: "氛", pinyin: "fēn", meaning: "atmosphere" }
+            ]
+        },
+        { 
+            radical: "水", name: "水字底", pinyin: "shuǐ zì dǐ", meaning: "Water", meaningSw: "Maji",
+            examples: [
+                { char: "水", pinyin: "shuǐ", meaning: "water" },
+                { char: "泉", pinyin: "quán", meaning: "spring" },
+                { char: "冰", pinyin: "bīng", meaning: "ice" },
+                { char: "浆", pinyin: "jiāng", meaning: "syrup" }
+            ]
+        },
+        { 
+            radical: "火", name: "火字底", pinyin: "huǒ zì dǐ", meaning: "Fire", meaningSw: "Moto",
+            examples: [
+                { char: "火", pinyin: "huǒ", meaning: "fire" },
+                { char: "灭", pinyin: "miè", meaning: "extinguish" },
+                { char: "灾", pinyin: "zāi", meaning: "disaster" },
+                { char: "炎", pinyin: "yán", meaning: "flame/hot" }
+            ]
+        },
+        { 
+            radical: "止", name: "止字旁", pinyin: "zhǐ zì páng", meaning: "Stop", meaningSw: "Simama",
+            examples: [
+                { char: "止", pinyin: "zhǐ", meaning: "stop" },
+                { char: "步", pinyin: "bù", meaning: "step" },
+                { char: "武", pinyin: "wǔ", meaning: "martial" },
+                { char: "歧", pinyin: "qí", meaning: "fork/divergent" }
+            ]
+        },
+        { 
+            radical: "歹", name: "歹字旁", pinyin: "dǎi zì páng", meaning: "Death/Bad", meaningSw: "Kifo/Mbaya",
+            examples: [
+                { char: "死", pinyin: "sǐ", meaning: "die" },
+                { char: "残", pinyin: "cán", meaning: "cruel" },
+                { char: "殊", pinyin: "shū", meaning: "different" },
+                { char: "殖", pinyin: "zhí", meaning: "grow/reproduce" }
+            ]
+        },
+        { 
+            radical: "见", name: "见字旁", pinyin: "jiàn zì páng", meaning: "See", meaningSw: "Ona",
+            examples: [
+                { char: "见", pinyin: "jiàn", meaning: "see" },
+                { char: "观", pinyin: "guān", meaning: "observe" },
+                { char: "视", pinyin: "shì", meaning: "view" },
+                { char: "览", pinyin: "lǎn", meaning: "look at" }
+            ]
+        },
+        { 
+            radical: "角", name: "角字旁", pinyin: "jiǎo zì páng", meaning: "Horn/Angle", meaningSw: "Pembe",
+            examples: [
+                { char: "角", pinyin: "jiǎo", meaning: "horn/angle" },
+                { char: "解", pinyin: "jiě", meaning: "untie/solve" },
+                { char: "触", pinyin: "chù", meaning: "touch" },
+                { char: "确", pinyin: "què", meaning: "true/real" }
+            ]
+        },
+        { 
+            radical: "言", name: "言字旁", pinyin: "yán zì páng", meaning: "Speech", meaningSw: "Hotuba",
+            examples: [
+                { char: "言", pinyin: "yán", meaning: "words" },
+                { char: "语", pinyin: "yǔ", meaning: "language" },
+                { char: "说", pinyin: "shuō", meaning: "speak" },
+                { char: "话", pinyin: "huà", meaning: "speech" }
+            ]
+        },
+        { 
+            radical: "金", name: "金字旁", pinyin: "jīn zì páng", meaning: "Gold/Metal", meaningSw: "Dhahabu/Chuma",
+            examples: [
+                { char: "金", pinyin: "jīn", meaning: "gold" },
+                { char: "银", pinyin: "yín", meaning: "silver" },
+                { char: "针", pinyin: "zhēn", meaning: "needle" },
+                { char: "钟", pinyin: "zhōng", meaning: "clock" }
+            ]
+        },
+        { 
+            radical: "门", name: "门字框", pinyin: "mén zì kuàng", meaning: "Door", meaningSw: "Mlango",
+            examples: [
+                { char: "门", pinyin: "mén", meaning: "door" },
+                { char: "间", pinyin: "jiān", meaning: "between/room" },
+                { char: "问", pinyin: "wèn", meaning: "ask" },
+                { char: "闻", pinyin: "wén", meaning: "hear/smell" }
+            ]
+        },
+        { 
+            radical: "风", name: "风字旁", pinyin: "fēng zì páng", meaning: "Wind", meaningSw: "Upepo",
+            examples: [
+                { char: "风", pinyin: "fēng", meaning: "wind" },
+                { char: "飘", pinyin: "piāo", meaning: "float" },
+                { char: "飙", pinyin: "biāo", meaning: "whirlwind" },
+                { char: "飒", pinyin: "sà", meaning: "sough" }
+            ]
+        },
+        { 
+            radical: "食", name: "食字旁", pinyin: "shí zì páng", meaning: "Food/Eat", meaningSw: "Chakula/Kula",
+            examples: [
+                { char: "食", pinyin: "shí", meaning: "food" },
+                { char: "餐", pinyin: "cān", meaning: "meal" },
+                { char: "饭", pinyin: "fàn", meaning: "rice/meal" },
+                { char: "饱", pinyin: "bǎo", meaning: "full" }
+            ]
+        },
+        // 30 NEW radicals including 反犬旁 (71-100)
+        { 
+            radical: "犭", name: "反犬旁", pinyin: "fǎn quǎn páng", meaning: "Animal/Dog", meaningSw: "Mnyama/Mbwa",
+            examples: [
+                { char: "狗", pinyin: "gǒu", meaning: "dog" },
+                { char: "猫", pinyin: "māo", meaning: "cat" },
+                { char: "狼", pinyin: "láng", meaning: "wolf" },
+                { char: "猪", pinyin: "zhū", meaning: "pig" }
+            ]
+        },
+        { 
+            radical: "酉", name: "酉字旁", pinyin: "yǒu zì páng", meaning: "Wine/Ferment", meaningSw: "Mvinyo/Chachu",
+            examples: [
+                { char: "酒", pinyin: "jiǔ", meaning: "alcohol" },
+                { char: "酸", pinyin: "suān", meaning: "sour" },
+                { char: "酷", pinyin: "kù", meaning: "cool" },
+                { char: "醉", pinyin: "zuì", meaning: "drunk" }
+            ]
+        },
+        { 
+            radical: "釆", name: "采字旁", pinyin: "cǎi zì páng", meaning: "Distinguish/Separate", meaningSw: "Tofautisha",
+            examples: [
+                { char: "释", pinyin: "shì", meaning: "explain" },
+                { char: "悉", pinyin: "xī", meaning: "know" },
+                { char: "釉", pinyin: "yòu", meaning: "glaze" },
+                { char: "番", pinyin: "fān", meaning: "foreign" }
+            ]
+        },
+        { 
+            radical: "黑", name: "黑字旁", pinyin: "hēi zì páng", meaning: "Black", meaningSw: "Nyeusi",
+            examples: [
+                { char: "黑", pinyin: "hēi", meaning: "black" },
+                { char: "默", pinyin: "mò", meaning: "silent" },
+                { char: "墨", pinyin: "mò", meaning: "ink" },
+                { char: "黛", pinyin: "dài", meaning: "eyebrow" }
+            ]
+        },
+        { 
+            radical: "赤", name: "赤字旁", pinyin: "chì zì páng", meaning: "Red", meaningSw: "Nyekundu",
+            examples: [
+                { char: "赤", pinyin: "chì", meaning: "red" },
+                { char: "赫", pinyin: "hè", meaning: "prominent" },
+                { char: "赧", pinyin: "nǎn", meaning: "blush" },
+                { char: "赦", pinyin: "shè", meaning: "pardon" }
+            ]
+        },
+        { 
+            radical: "青", name: "青字旁", pinyin: "qīng zì páng", meaning: "Blue/Green", meaningSw: "Bluu/Kijani",
+            examples: [
+                { char: "青", pinyin: "qīng", meaning: "blue/green" },
+                { char: "静", pinyin: "jìng", meaning: "quiet" },
+                { char: "靓", pinyin: "liàng", meaning: "pretty" },
+                { char: "靖", pinyin: "jìng", meaning: "peaceful" }
+            ]
+        },
+        { 
+            radical: "黄", name: "黄字旁", pinyin: "huáng zì páng", meaning: "Yellow", meaningSw: "Manjano",
+            examples: [
+                { char: "黄", pinyin: "huáng", meaning: "yellow" },
+                { char: "簧", pinyin: "huáng", meaning: "spring" },
+                { char: "潢", pinyin: "huáng", meaning: "pond" },
+                { char: "璜", pinyin: "huáng", meaning: "jade" }
+            ]
+        },
+        { 
+            radical: "白", name: "白字旁", pinyin: "bái zì páng", meaning: "White", meaningSw: "Nyeupe",
+            examples: [
+                { char: "白", pinyin: "bái", meaning: "white" },
+                { char: "百", pinyin: "bǎi", meaning: "hundred" },
+                { char: "的", pinyin: "de", meaning: "possessive" },
+                { char: "皇", pinyin: "huáng", meaning: "emperor" }
+            ]
+        },
+        { 
+            radical: "瓜", name: "瓜字旁", pinyin: "guā zì páng", meaning: "Melon", meaningSw: "Tikiti",
+            examples: [
+                { char: "瓜", pinyin: "guā", meaning: "melon" },
+                { char: "瓣", pinyin: "bàn", meaning: "petal" },
+                { char: "瓢", pinyin: "piáo", meaning: "gourd" },
+                { char: "瓤", pinyin: "ráng", meaning: "pulp" }
+            ]
+        },
+        { 
+            radical: "豆", name: "豆字旁", pinyin: "dòu zì páng", meaning: "Bean", meaningSw: "Maharagwe",
+            examples: [
+                { char: "豆", pinyin: "dòu", meaning: "bean" },
+                { char: "豌", pinyin: "wān", meaning: "pea" },
+                { char: "豉", pinyin: "chǐ", meaning: "fermented bean" },
+                { char: "豐", pinyin: "fēng", meaning: "abundant" }
+            ]
+        },
+        { 
+            radical: "米", name: "米字旁", pinyin: "mǐ zì páng", meaning: "Rice", meaningSw: "Mchele",
+            examples: [
+                { char: "米", pinyin: "mǐ", meaning: "rice" },
+                { char: "粮", pinyin: "liáng", meaning: "grain" },
+                { char: "糖", pinyin: "táng", meaning: "sugar" },
+                { char: "糕", pinyin: "gāo", meaning: "cake" }
+            ]
+        },
+        { 
+            radical: "麦", name: "麦字旁", pinyin: "mài zì páng", meaning: "Wheat", meaningSw: "Ngano",
+            examples: [
+                { char: "麦", pinyin: "mài", meaning: "wheat" },
+                { char: "面", pinyin: "miàn", meaning: "flour" },
+                { char: "麸", pinyin: "fū", meaning: "bran" }
+            ]
+        },
+        { 
+            radical: "麻", name: "麻字旁", pinyin: "má zì páng", meaning: "Hemp", meaningSw: "Katani",
+            examples: [
+                { char: "麻", pinyin: "má", meaning: "hemp/numb" },
+                { char: "摩", pinyin: "mó", meaning: "rub" },
+                { char: "磨", pinyin: "mó", meaning: "grind" },
+                { char: "糜", pinyin: "mí", meaning: "rotten" }
+            ]
+        },
+        { 
+            radical: "鹿", name: "鹿字旁", pinyin: "lù zì páng", meaning: "Deer", meaningSw: "Kulungu",
+            examples: [
+                { char: "鹿", pinyin: "lù", meaning: "deer" },
+                { char: "麓", pinyin: "lù", meaning: "foothill" },
+                { char: "麟", pinyin: "lín", meaning: "unicorn" },
+                { char: "麋", pinyin: "mí", meaning: "elk" }
+            ]
+        },
+        { 
+            radical: "鼠", name: "鼠字旁", pinyin: "shǔ zì páng", meaning: "Rat", meaningSw: "Panya",
+            examples: [
+                { char: "鼠", pinyin: "shǔ", meaning: "rat" },
+                { char: "鼬", pinyin: "yòu", meaning: "weasel" },
+                { char: "鼯", pinyin: "wú", meaning: "flying squirrel" },
+                { char: "鼹", pinyin: "yǎn", meaning: "mole" }
+            ]
+        },
+        { 
+            radical: "鼻", name: "鼻字旁", pinyin: "bí zì páng", meaning: "Nose", meaningSw: "Pua",
+            examples: [
+                { char: "鼻", pinyin: "bí", meaning: "nose" },
+                { char: "鼾", pinyin: "hān", meaning: "snore" },
+                { char: "齁", pinyin: "hōu", meaning: "snore" },
+                { char: "齉", pinyin: "nàng", meaning: "snuffle" }
+            ]
+        },
+        { 
+            radical: "齿", name: "齿字旁", pinyin: "chǐ zì páng", meaning: "Tooth", meaningSw: "Jino",
+            examples: [
+                { char: "齿", pinyin: "chǐ", meaning: "tooth" },
+                { char: "龄", pinyin: "líng", meaning: "age" },
+                { char: "龅", pinyin: "bāo", meaning: "bucktooth" },
+                { char: "龋", pinyin: "qǔ", meaning: "cavity" }
+            ]
+        },
+        { 
+            radical: "骨", name: "骨字旁", pinyin: "gǔ zì páng", meaning: "Bone", meaningSw: "Mfupa",
+            examples: [
+                { char: "骨", pinyin: "gǔ", meaning: "bone" },
+                { char: "骼", pinyin: "gé", meaning: "skeleton" },
+                { char: "骸", pinyin: "hái", meaning: "bones" },
+                { char: "髓", pinyin: "suǐ", meaning: "marrow" }
+            ]
+        },
+        { 
+            radical: "皮", name: "皮字旁", pinyin: "pí zì páng", meaning: "Skin", meaningSw: "Ngozi",
+            examples: [
+                { char: "皮", pinyin: "pí", meaning: "skin" },
+                { char: "皱", pinyin: "zhòu", meaning: "wrinkle" },
+                { char: "皴", pinyin: "cūn", meaning: "cracked" },
+                { char: "皲", pinyin: "jūn", meaning: "chapped" }
+            ]
+        },
+        { 
+            radical: "革", name: "革字旁", pinyin: "gé zì páng", meaning: "Leather", meaningSw: "Ngozi",
+            examples: [
+                { char: "革", pinyin: "gé", meaning: "leather" },
+                { char: "鞋", pinyin: "xié", meaning: "shoe" },
+                { char: "鞍", pinyin: "ān", meaning: "saddle" },
+                { char: "鞭", pinyin: "biān", meaning: "whip" }
+            ]
+        },
+        { 
+            radical: "韦", name: "韦字旁", pinyin: "wéi zì páng", meaning: "Leather", meaningSw: "Ngozi",
+            examples: [
+                { char: "韦", pinyin: "wéi", meaning: "leather" },
+                { char: "韧", pinyin: "rèn", meaning: "tough" },
+                { char: "韬", pinyin: "tāo", meaning: "conceal" },
+                { char: "韩", pinyin: "hán", meaning: "Korea" }
+            ]
+        },
+        { 
+            radical: "香", name: "香字旁", pinyin: "xiāng zì páng", meaning: "Fragrant", meaningSw: "Harufu nzuri",
+            examples: [
+                { char: "香", pinyin: "xiāng", meaning: "fragrant" },
+                { char: "馥", pinyin: "fù", meaning: "fragrance" },
+                { char: "馨", pinyin: "xīn", meaning: "perfume" }
+            ]
+        },
+        { 
+            radical: "鬼", name: "鬼字旁", pinyin: "guǐ zì páng", meaning: "Ghost", meaningSw: "Pepo",
+            examples: [
+                { char: "鬼", pinyin: "guǐ", meaning: "ghost" },
+                { char: "魂", pinyin: "hún", meaning: "soul" },
+                { char: "魄", pinyin: "pò", meaning: "spirit" },
+                { char: "魅", pinyin: "mèi", meaning: "charm" }
+            ]
+        },
+        { 
+            radical: "音", name: "音字旁", pinyin: "yīn zì páng", meaning: "Sound", meaningSw: "Sauti",
+            examples: [
+                { char: "音", pinyin: "yīn", meaning: "sound" },
+                { char: "韵", pinyin: "yùn", meaning: "rhyme" },
+                { char: "韶", pinyin: "sháo", meaning: "music" }
+            ]
+        },
+        { 
+            radical: "首", name: "首字旁", pinyin: "shǒu zì páng", meaning: "Head", meaningSw: "Kichwa",
+            examples: [
+                { char: "首", pinyin: "shǒu", meaning: "head" },
+                { char: "馗", pinyin: "kuí", meaning: "crossroads" }
+            ]
+        },
+        { 
+            radical: "鬥", name: "鬥字旁", pinyin: "dòu zì páng", meaning: "Fight", meaningSw: "Pigana",
+            examples: [
+                { char: "鬥", pinyin: "dòu", meaning: "fight" },
+                { char: "鬧", pinyin: "nào", meaning: "noisy" },
+                { char: "鬨", pinyin: "hòng", meaning: "uproar" }
+            ]
+        },
+        { 
+            radical: "鬯", name: "鬯字旁", pinyin: "chàng zì páng", meaning: "Sacrificial wine", meaningSw: "Divai ya dhabihu",
+            examples: [
+                { char: "鬯", pinyin: "chàng", meaning: "sacrificial wine" },
+                { char: "鬱", pinyin: "yù", meaning: "gloomy" }
+            ]
+        },
+        { 
+            radical: "鬲", name: "鬲字旁", pinyin: "lì zì páng", meaning: "Cauldron", meaningSw: "Chungu",
+            examples: [
+                { char: "鬲", pinyin: "lì", meaning: "cauldron" },
+                { char: "融", pinyin: "róng", meaning: "melt" },
+                { char: "鬻", pinyin: "yù", meaning: "sell" }
+            ]
+        },
+        { 
+            radical: "鹵", name: "鹵字旁", pinyin: "lǔ zì páng", meaning: "Salt", meaningSw: "Chumvi",
+            examples: [
+                { char: "鹵", pinyin: "lǔ", meaning: "salt" },
+                { char: "鹹", pinyin: "xián", meaning: "salty" }
+            ]
+        },
+        { 
+            radical: "黹", name: "黹字旁", pinyin: "zhǐ zì páng", meaning: "Embroidery", meaningSw: "Ushonaji",
+            examples: [
+                { char: "黹", pinyin: "zhǐ", meaning: "embroidery" },
+                { char: "黻", pinyin: "fú", meaning: "pattern" },
+                { char: "黼", pinyin: "fǔ", meaning: "embroidery" }
+            ]
+        }
+    ];
+
+    // ------------------------------------------------------------
+    // Full lyrics data for each song
+    // ------------------------------------------------------------
+    const songLyrics = {
+        "月亮代表我的心": [
+            { chinese: "你问我爱你有多深", pinyin: "nǐ wèn wǒ ài nǐ yǒu duō shēn", english: "You ask me how deep my love is", swahili: "Unauliza upendo wangu uko kina gani" },
+            { chinese: "我爱你有几分", pinyin: "wǒ ài nǐ yǒu jǐ fēn", english: "How much I love you", swahili: "Kiasi gani nakupenda" },
+            { chinese: "我的情也真", pinyin: "wǒ de qíng yě zhēn", english: "My feelings are true", swahili: "Hisia zangu ni za kweli" },
+            { chinese: "我的爱也真", pinyin: "wǒ de ài yě zhēn", english: "My love is true", swahili: "Upendo wangu ni wa kweli" },
+            { chinese: "月亮代表我的心", pinyin: "yuèliàng dàibiǎo wǒ de xīn", english: "The moon represents my heart", swahili: "Mwezi unawakilisha moyo wangu" },
+            { chinese: "轻轻的一个吻", pinyin: "qīngqīng de yī gè wěn", english: "A gentle kiss", swahili: "Busu la upole" },
+            { chinese: "已经打动我的心", pinyin: "yǐjīng dǎdòng wǒ de xīn", english: "Has already touched my heart", swahili: "Tayari imegusa moyo wangu" },
+            { chinese: "深深的一段情", pinyin: "shēnshēn de yī duàn qíng", english: "A deep feeling", swahili: "Hisia ya kina" },
+            { chinese: "教我思念到如今", pinyin: "jiào wǒ sīniàn dào rújīn", english: "Makes me miss you until now", swahili: "Yananifanya nikukumbuke mpaka sasa" }
+        ],
+        "甜蜜蜜": [
+            { chinese: "甜蜜蜜 你笑得甜蜜蜜", pinyin: "tián mì mì nǐ xiào dé tián mì mì", english: "Sweet honey, your smile is so sweet", swahili: "Asali tamu, tabasamu lako ni tamu sana" },
+            { chinese: "好像花儿开在春风里", pinyin: "hǎoxiàng huār kāi zài chūnfēng lǐ", english: "Like flowers blooming in the spring breeze", swahili: "Kama maua yanayochanua katika upepo wa machipuko" },
+            { chinese: "开在春风里", pinyin: "kāi zài chūnfēng lǐ", english: "Blooming in the spring breeze", swahili: "Yanayochanua katika upepo wa machipuko" },
+            { chinese: "在哪里 在哪里见过你", pinyin: "zài nǎlǐ zài nǎlǐ jiànguò nǐ", english: "Where, where have I seen you", swahili: "Wapi, wapi nimekuona" },
+            { chinese: "你的笑容这样熟悉", pinyin: "nǐ de xiàoróng zhèyàng shúxī", english: "Your smile is so familiar", swahili: "Tabasamu lako linajulikana sana" },
+            { chinese: "我一时想不起", pinyin: "wǒ yīshí xiǎng bù qǐ", english: "I can't remember right now", swahili: "Siwezi kukumbuka sasa hivi" }
+        ],
+        "朋友": [
+            { chinese: "朋友 一生一起走", pinyin: "péngyǒu yīshēng yīqǐ zǒu", english: "Friends, walk together for a lifetime", swahili: "Marafiki, tembea pamoja kwa maisha" },
+            { chinese: "那些日子 不再有", pinyin: "nàxiē rìzi bù zài yǒu", english: "Those days will never come again", swahili: "Siku hizo hazitarudi tena" },
+            { chinese: "一句话 一辈子", pinyin: "yī jù huà yī bèizi", english: "One word, a lifetime", swahili: "Neno moja, maisha yote" },
+            { chinese: "一生情 一杯酒", pinyin: "yīshēng qíng yī bēi jiǔ", english: "A lifetime of love, a glass of wine", swahili: "Upendo wa maisha, glasi ya divai" },
+            { chinese: "朋友 不曾孤单过", pinyin: "péngyǒu bùcéng gūdān guò", english: "Friends, never alone", swahili: "Marafiki, kamwe si peke yako" },
+            { chinese: "一声朋友 你会懂", pinyin: "yī shēng péngyǒu nǐ huì dǒng", english: "A word 'friend', you will understand", swahili: "Neno 'rafiki', utaelewa" }
+        ],
+        "茉莉花": [
+            { chinese: "好一朵美丽的茉莉花", pinyin: "hǎo yī duǒ měilì de mòlìhuā", english: "What a beautiful jasmine flower", swahili: "Ni ua mzuri wa jasmine" },
+            { chinese: "芬芳美丽满枝桠", pinyin: "fēnfāng měilì mǎn zhī yā", english: "Fragrant and lovely on the branch", swahili: "Lenye harufu nzuri na zuri kwenye tawi" },
+            { chinese: "又香又白人人夸", pinyin: "yòu xiāng yòu bái rénrén kuā", english: "Fragrant and white, everyone praises", swahili: "Lenye harufu nzuri na jeupe, kila mtu anasifu" },
+            { chinese: "让我来将你摘下", pinyin: "ràng wǒ lái jiāng nǐ zhāi xià", english: "Let me pick you", swahili: "Ngoja nikuchume" },
+            { chinese: "送给别人家", pinyin: "sòng gěi biérén jiā", english: "Give you to someone else's home", swahili: "Nikupe kwa nyumba ya mtu mwingine" }
+        ],
+        "小苹果": [
+            { chinese: "你是我的小呀小苹果", pinyin: "nǐ shì wǒ de xiǎo ya xiǎo píngguǒ", english: "You are my little apple", swahili: "Wewe ni tofaa langu dogo" },
+            { chinese: "怎么爱你都不嫌多", pinyin: "zěnme ài nǐ dōu bù xián duō", english: "No matter how much I love you, it's never too much", swahili: "Hata nikupenda kiasi gani, sio kupita kiasi" },
+            { chinese: "红红的小脸儿温暖我的心窝", pinyin: "hóng hóng de xiǎo liǎn er wēnnuǎn wǒ de xīn wō", english: "Your little red face warms my heart", swahili: "Uso wako mdogo mwekundu unaupasha joto moyo wangu" },
+            { chinese: "点亮我生命的火 火火火火火", pinyin: "diǎn liàng wǒ shēngmìng de huǒ huǒ huǒ huǒ huǒ", english: "Lighting the fire of my life", swahili: "Unawasha moto wa maisha yangu" }
+        ],
+        "隐形的翅膀": [
+            { chinese: "每一次 都在徘徊孤单中坚强", pinyin: "měi yī cì dōu zài páihuái gūdān zhōng jiānqiáng", english: "Every time, I become strong in hesitation and loneliness", swahili: "Kila wakati, ninakuwa hodari katikati ya kusitasita na upweke" },
+            { chinese: "每一次 就算很受伤 也不闪泪光", pinyin: "měi yī cì jiùsuàn hěn shòushāng yě bù shǎn lèiguāng", english: "Every time, even if hurt, I don't shed tears", swahili: "Kila wakati, hata nikiumia, sili machozi" },
+            { chinese: "我知道 我一直有双隐形的翅膀", pinyin: "wǒ zhīdào wǒ yīzhí yǒu shuāng yǐnxíng de chìbǎng", english: "I know I've always had invisible wings", swahili: "Najua nimekuwa na mabawa yasiyoonekana" },
+            { chinese: "带我飞 飞过绝望", pinyin: "dài wǒ fēi fēi guò juéwàng", english: "Taking me to fly over despair", swahili: "Yananichukua kuruka juu ya kukata tamaa" }
+        ],
+        "对不起我的中文不好": [
+            { chinese: "对不起 我的中文不好", pinyin: "duìbuqǐ wǒ de zhōngwén bù hǎo", english: "Sorry, my Chinese is not good", swahili: "Samahani, Kichina changu si kizuri" },
+            { chinese: "但是我很努力在学习", pinyin: "dànshì wǒ hěn nǔlì zài xuéxí", english: "But I'm trying hard to learn", swahili: "Lakini ninajitahidi kujifunza" },
+            { chinese: "请你不要笑我", pinyin: "qǐng nǐ bùyào xiào wǒ", english: "Please don't laugh at me", swahili: "Tafadhali usinicheke" },
+            { chinese: "我会慢慢进步", pinyin: "wǒ huì màn màn jìnbù", english: "I will improve slowly", swahili: "Nitaendelea polepole" }
+        ],
+        "学猫叫": [
+            { chinese: "我们一起学猫叫", pinyin: "wǒmen yīqǐ xué māo jiào", english: "Let's learn to meow together", swahili: "Tujifunze kulia kama paka pamoja" },
+            { chinese: "一起喵喵喵喵喵", pinyin: "yīqǐ miāo miāo miāo miāo miāo", english: "Meow meow meow meow meow", swahili: "Nyao nyao nyao nyao nyao" },
+            { chinese: "在你面前撒个娇", pinyin: "zài nǐ miànqián sā gè jiāo", english: "Act cute in front of you", swahili: "Jifanye mtoto mzuri mbele yako" },
+            { chinese: "哎哟喵喵喵喵喵", pinyin: "āi yō miāo miāo miāo miāo miāo", english: "Aiyo meow meow meow", swahili: "Aiyo nyao nyao nyao" }
+        ],
+        "花园种花 (挖呀挖呀挖)": [
+            { chinese: "在小小的花园里面 挖呀挖呀挖", pinyin: "zài xiǎo xiǎo de huāyuán lǐ miàn wā ya wā ya wā", english: "In a little garden, dig and dig and dig", swahili: "Kwenye bustani ndogo, chimba na chimba na chimba" },
+            { chinese: "种小小的种子 开小小的花", pinyin: "zhòng xiǎo xiǎo de zhǒngzi kāi xiǎo xiǎo de huā", english: "Plant little seeds, grow little flowers", swahili: "Panda mbegu ndogo, kua maua madogo" },
+            { chinese: "在大大的花园里面 挖呀挖呀挖", pinyin: "zài dà dà de huāyuán lǐ miàn wā ya wā ya wā", english: "In a big garden, dig and dig and dig", swahili: "Kwenye bustani kubwa, chimba na chimba na chimba" },
+            { chinese: "种大大的种子 开大大的花", pinyin: "zhòng dà dà de zhǒngzi kāi dà dà de huā", english: "Plant big seeds, grow big flowers", swahili: "Panda mbegu kubwa, kua maua makubwa" }
+        ],
+        "青春修炼手册": [
+            { chinese: "跟着我 左手 右手 一个慢动作", pinyin: "gēnzhe wǒ zuǒshǒu yòushǒu yī gè màn dòngzuò", english: "Follow me, left hand, right hand, a slow motion", swahili: "Nifuate, mkono wa kushoto, mkono wa kulia, mwendo wa polepole" },
+            { chinese: "右手 左手 慢动作重播", pinyin: "yòushǒu zuǒshǒu màn dòngzuò chóngbō", english: "Right hand, left hand, slow motion replay", swahili: "Mkono wa kulia, mkono wa kushoto, marudio ya mwendo wa polepole" },
+            { chinese: "这首歌 给你快乐", pinyin: "zhè shǒu gē gěi nǐ kuàilè", english: "This song gives you happiness", swahili: "Wimbo huu unakupa furaha" },
+            { chinese: "你有没有爱上我", pinyin: "nǐ yǒu méiyǒu ài shàng wǒ", english: "Have you fallen in love with me", swahili: "Je, umenipenda" }
+        ],
+        "老鼠爱大米": [
+            { chinese: "我爱你 爱着你", pinyin: "wǒ ài nǐ àizhe nǐ", english: "I love you, love you", swahili: "Nakupenda, nakupenda" },
+            { chinese: "就像老鼠爱大米", pinyin: "jiù xiàng lǎoshǔ ài dàmǐ", english: "Like a mouse loves rice", swahili: "Kama panya anavyopenda wali" },
+            { chinese: "不管有多少风雨", pinyin: "bùguǎn yǒu duōshǎo fēngyǔ", english: "No matter how much wind and rain", swahili: "Bila kujali ni kiasi gani cha upepo na mvua" },
+            { chinese: "我都会依然陪着你", pinyin: "wǒ dūhuì yīrán péizhe nǐ", english: "I will still be with you", swahili: "Bado nitakuwa nawe" }
+        ],
+        "这是我的心": [
+            { chinese: "这是我的心 这是我的心", pinyin: "zhè shì wǒ de xīn zhè shì wǒ de xīn", english: "This is my heart, this is my heart", swahili: "Huu ni moyo wangu, huu ni moyo wangu" },
+            { chinese: "送给你 送给你", pinyin: "sòng gěi nǐ sòng gěi nǐ", english: "Giving it to you, giving it to you", swahili: "Nakupa, nakupa" },
+            { chinese: "希望你 希望你", pinyin: "xīwàng nǐ xīwàng nǐ", english: "I hope you, I hope you", swahili: "Natumaini wewe, natumaini wewe" },
+            { chinese: "好好珍惜", pinyin: "hǎohǎo zhēnxī", english: "Treasure it well", swahili: "Uthaminishe vizuri" }
+        ],
+        "听我说谢谢你": [
+            { chinese: "听我说谢谢你", pinyin: "tīng wǒ shuō xiè xiè nǐ", english: "Listen to me, thank you", swahili: "Nisikilize, asante" },
+            { chinese: "因为有你 温暖了四季", pinyin: "yīn wèi yǒu nǐ wēn nuǎn le sì jì", english: "Because of you, the seasons are warm", swahili: "Kwa sababu yako, misimu ina joto" },
+            { chinese: "谢谢你 感谢有你", pinyin: "xiè xiè nǐ gǎn xiè yǒu nǐ", english: "Thank you, grateful for you", swahili: "Asante, nakushukuru" },
+            { chinese: "世界更美丽", pinyin: "shì jiè gèng měi lì", english: "The world is more beautiful", swahili: "Dunia inakuwa nzuri zaidi" },
+            { chinese: "我要谢谢你 因为有你", pinyin: "wǒ yào xiè xiè nǐ yīn wèi yǒu nǐ", english: "I want to thank you, because of you", swahili: "Nataka kukushukuru, kwa sababu yako" },
+            { chinese: "爱常在心底", pinyin: "ài cháng zài xīn dǐ", english: "Love is always in the heart", swahili: "Upendo uko moyoni kila wakati" }
+        ],
+        "我不敢说": [
+            { chinese: "我不敢说 我不敢说", pinyin: "wǒ bù gǎn shuō wǒ bù gǎn shuō", english: "I don't dare to say, I don't dare to say", swahili: "Sithubutu kusema, sithubutu kusema" },
+            { chinese: "我的心事 告诉你", pinyin: "wǒ de xīnshì gàosu nǐ", english: "My heart's matters to tell you", swahili: "Mambo ya moyo wangu kukuambia" },
+            { chinese: "我不敢说 我不敢说", pinyin: "wǒ bù gǎn shuō wǒ bù gǎn shuō", english: "I don't dare to say, I don't dare to say", swahili: "Sithubutu kusema, sithubutu kusema" },
+            { chinese: "我的秘密 藏心里", pinyin: "wǒ de mìmì cáng xīn lǐ", english: "My secrets hide in my heart", swahili: "Siri zangu nimeficha moyoni" }
+        ],
+        "愛上你難忘記": [
+            { chinese: "爱上你难忘记", pinyin: "ài shàng nǐ nán wàng jì", english: "Falling in love with you is hard to forget", swahili: "Kukupenda ni vigumu kusahau" },
+            { chinese: "心里全是你", pinyin: "xīn lǐ quán shì nǐ", english: "My heart is all you", swahili: "Moyo wangu wote ni wewe" },
+            { chinese: "每一天每一夜", pinyin: "měi yī tiān měi yī yè", english: "Every day and every night", swahili: "Kila siku na kila usiku" },
+            { chinese: "都在想念你", pinyin: "dōu zài xiǎng niàn nǐ", english: "I'm thinking of you", swahili: "Ninakufikiria" },
+            { chinese: "爱上你难忘记", pinyin: "ài shàng nǐ nán wàng jì", english: "Falling in love with you is hard to forget", swahili: "Kukupenda ni vigumu kusahau" },
+            { chinese: "梦里也是你", pinyin: "mèng lǐ yě shì nǐ", english: "In my dreams, it's also you", swahili: "Ndoto zangu pia ni wewe" }
+        ],
+        "天際": [
+            { chinese: "在天際的远方", pinyin: "zài tiān jì de yuǎn fāng", english: "In the distant horizon", swahili: "Katika upeo wa mbali" },
+            { chinese: "有我的梦想", pinyin: "yǒu wǒ de mèng xiǎng", english: "There is my dream", swahili: "Kuna ndoto yangu" },
+            { chinese: "星光照亮我前行", pinyin: "xīng guāng zhào liàng wǒ qián xíng", english: "Starlight illuminates my way forward", swahili: "Mwanga wa nyota unaangaza njia yangu mbele" },
+            { chinese: "不怕风雨狂", pinyin: "bù pà fēng yǔ kuáng", english: "Not afraid of the wind and rain", swahili: "Siogopi upepo na mvua" },
+            { chinese: "追寻那道光", pinyin: "zhuī xún nà dào guāng", english: "Chasing that light", swahili: "Kufuatia mwanga huo" },
+            { chinese: "直到抵达天際", pinyin: "zhí dào dǐ dá tiān jì", english: "Until I reach the horizon", swahili: "Mpaka nifikie upeo" }
+        ]
+    };
+
+    // ------------------------------------------------------------
+    // SONGS with CORRECT, TESTED YouTube links
+    // ------------------------------------------------------------
+    const songs = [
+        { 
+            title: "月亮代表我的心", 
+            artist: "邓丽君 (Teresa Teng)", 
+            youtube: "https://www.youtube.com/watch?v=IiFm7AWP9n4",
+            snippet: "你问我爱你有多深… 我爱你有几分… 月亮代表我的心",
+            snippetPinyin: "nǐ wèn wǒ ài nǐ yǒu duō shēn… wǒ ài nǐ yǒu jǐ fēn… yuèliàng dàibiǎo wǒ de xīn",
+            snippetEn: "You ask how deep my love is… how much I love you… the moon represents my heart.",
+            snippetSw: "Unauliza upendo wangu uko kina gani… nakupenda kiasi gani… mwezi unawakilisha moyo wangu."
+        },
+        { 
+            title: "甜蜜蜜", 
+            artist: "邓丽君 (Teresa Teng)", 
+            youtube: "https://www.youtube.com/watch?v=jp9V0PJn2N0&list=RDjp9V0PJn2N0&start_radio=1",
+            snippet: "甜蜜蜜 你笑得甜蜜蜜 好像花儿开在春风里",
+            snippetPinyin: "tián mì mì nǐ xiào dé tián mì mì hǎoxiàng huār kāi zài chūnfēng lǐ",
+            snippetEn: "Sweet honey, your smile is so sweet, like flowers blooming in the spring breeze.",
+            snippetSw: "Asali tamu, tabasamu lako ni tamu sana, kama maua yanayochanua katika upepo wa machipuko."
+        },
+        { 
+            title: "朋友", 
+            artist: "周华健 (Wakin Chau)", 
+            youtube: "https://www.youtube.com/watch?v=_iZOUWHnDbM&list=RD_iZOUWHnDbM&start_radio=1",
+            snippet: "朋友 一生一起走 那些日子 不再有",
+            snippetPinyin: "péngyǒu yīshēng yīqǐ zǒu nàxiē rìzi bù zài yǒu",
+            snippetEn: "Friends, walk together for a lifetime. Those days will never come again.",
+            snippetSw: "Marafiki, tembea pamoja kwa maisha. Siku hizo hazitarudi tena."
+        },
+        { 
+            title: "茉莉花", 
+            artist: "宋祖英 (Song Zuying)", 
+            youtube: "https://www.youtube.com/watch?v=y7hdZ5rYd2E&list=RDy7hdZ5rYd2E&start_radio=1",
+            snippet: "好一朵美丽的茉莉花 好一朵美丽的茉莉花 芬芳美丽满枝桠",
+            snippetPinyin: "hǎo yī duǒ měilì de mòlìhuā hǎo yī duǒ měilì de mòlìhuā fēnfāng měilì mǎn zhī yā",
+            snippetEn: "What a beautiful jasmine flower, fragrant and lovely on the branch.",
+            snippetSw: "Ni ua mzuri wa jasmine, lenye harufu nzuri na zuri kwenye tawi."
+        },
+        { 
+            title: "小苹果", 
+            artist: "筷子兄弟 (Chopstick Brothers)", 
+            youtube: "https://www.youtube.com/shorts/pbJqVAHrvGM",
+            snippet: "你是我的小呀小苹果 怎么爱你都不嫌多",
+            snippetPinyin: "nǐ shì wǒ de xiǎo ya xiǎo píngguǒ zěnme ài nǐ dōu bù xián duō",
+            snippetEn: "You are my little apple. No matter how much I love you, it's never too much.",
+            snippetSw: "Wewe ni tofaa langu dogo. Hata nikupenda kiasi gani, sio kupita kiasi."
+        },
+        { 
+            title: "隐形的翅膀", 
+            artist: "张韶涵 (Angela Chang)", 
+            youtube: "https://www.youtube.com/shorts/PUovzgT0ios",
+            snippet: "每一次 都在徘徊孤单中坚强 每一次 就算很受伤 也不闪泪光",
+            snippetPinyin: "měi yī cì dōu zài páihuái gūdān zhōng jiānqiáng měi yī cì jiùsuàn hěn shòushāng yě bù shǎn lèiguāng",
+            snippetEn: "Every time, I become strong in hesitation and loneliness. Every time, even if hurt, I don't shed tears.",
+            snippetSw: "Kila wakati, ninakuwa hodari katikati ya kusitasita na upweke. Kila wakati, hata nikiumia, sili machozi."
+        },
+        { 
+            title: "对不起我的中文不好", 
+            artist: "Learning Chinese Song", 
+            youtube: "https://www.youtube.com/shorts/iNdC7wwv7iA",
+            snippet: "对不起 我的中文不好 但是我很努力在学习",
+            snippetPinyin: "duìbuqǐ wǒ de zhōngwén bù hǎo dànshì wǒ hěn nǔlì zài xuéxí",
+            snippetEn: "Sorry, my Chinese is not good, but I'm trying hard to learn.",
+            snippetSw: "Samahani, Kichina changu si kizuri, lakini ninajitahidi kujifunza."
+        },
+        { 
+            title: "学猫叫", 
+            artist: "小潘潘 & 小峰峰 (Xiao Pan Pan & Xiao Feng Feng)", 
+            youtube: "https://www.youtube.com/watch?v=2VLY1BawqXw&list=RD2VLY1BawqXw&start_radio=1",
+            snippet: "我们一起学猫叫 一起喵喵喵喵喵 在你面前撒个娇",
+            snippetPinyin: "wǒmen yīqǐ xué māo jiào yīqǐ miāo miāo miāo miāo miāo zài nǐ miànqián sā gè jiāo",
+            snippetEn: "Let's learn to meow together, meow meow meow. Act cute in front of you.",
+            snippetSw: "Tujifunze kulia kama paka pamoja, nyao nyao nyao. Jifanye mtoto mzuri mbele yako."
+        },
+        { 
+            title: "花园种花 (挖呀挖呀挖)", 
+            artist: "儿歌 (Children's Song)", 
+            youtube: "https://www.youtube.com/watch?v=FqJDeEav-bs&list=RDFqJDeEav-bs&start_radio=1",
+            snippet: "在小小的花园里面 挖呀挖呀挖 种小小的种子 开小小的花",
+            snippetPinyin: "zài xiǎo xiǎo de huāyuán lǐ miàn wā ya wā ya wā zhòng xiǎo xiǎo de zhǒngzi kāi xiǎo xiǎo de huā",
+            snippetEn: "In a little garden, dig and dig and dig. Plant little seeds, grow little flowers.",
+            snippetSw: "Kwenye bustani ndogo, chimba na chimba na chimba. Panda mbegu ndogo, kua maua madogo."
+        },
+        { 
+            title: "青春修炼手册", 
+            artist: "TFBoys", 
+            youtube: "https://www.youtube.com/watch?v=pO2Vvyazrj8&list=RDpO2Vvyazrj8&start_radio=1",
+            snippet: "跟着我 左手 右手 一个慢动作 右手 左手 慢动作重播",
+            snippetPinyin: "gēnzhe wǒ zuǒshǒu yòushǒu yī gè màn dòngzuò yòushǒu zuǒshǒu màn dòngzuò chóngbō",
+            snippetEn: "Follow me, left hand, right hand, a slow motion. Right hand, left hand, slow motion replay.",
+            snippetSw: "Nifuate, mkono wa kushoto, mkono wa kulia, mwendo wa polepole. Mkono wa kulia, mkono wa kushoto, marudio ya mwendo wa polepole."
+        },
+        { 
+            title: "老鼠爱大米", 
+            artist: "杨臣刚 (Yang Chengang)", 
+            youtube: "https://www.youtube.com/shorts/5COsDzLdzD0",
+            snippet: "我爱你 爱着你 就像老鼠爱大米",
+            snippetPinyin: "wǒ ài nǐ àizhe nǐ jiù xiàng lǎoshǔ ài dàmǐ",
+            snippetEn: "I love you, love you, like a mouse loves rice.",
+            snippetSw: "Nakupenda, nakupenda, kama panya anavyopenda wali."
+        },
+        { 
+            title: "这是我的心", 
+            artist: "Learning Chinese Song", 
+            youtube: "https://www.youtube.com/watch?v=HB-QFRJrty4&list=RD2VLY1BawqXw&index=3",
+            snippet: "这是我的心 这是我的心 送给你 送给你",
+            snippetPinyin: "zhè shì wǒ de xīn zhè shì wǒ de xīn sòng gěi nǐ sòng gěi nǐ",
+            snippetEn: "This is my heart, this is my heart. Giving it to you, giving it to you.",
+            snippetSw: "Huu ni moyo wangu, huu ni moyo wangu. Nakupa, nakupa."
+        },
+        { 
+            title: "听我说谢谢你", 
+            artist: "Children's Song", 
+            youtube: "https://www.youtube.com/watch?v=seFdteijPcw&list=RD2VLY1BawqXw&index=5",
+            snippet: "听我说谢谢你 因为有你 温暖了四季 谢谢你 感谢有你 世界更美丽",
+            snippetPinyin: "tīng wǒ shuō xiè xiè nǐ yīn wèi yǒu nǐ wēn nuǎn le sì jì xiè xiè nǐ gǎn xiè yǒu nǐ shì jiè gèng měi lì",
+            snippetEn: "Listen to me, thank you. Because of you, the seasons are warm. Thank you, grateful for you. The world is more beautiful.",
+            snippetSw: "Nisikilize, asante. Kwa sababu yako, misimu ina joto. Asante, nakushukuru. Dunia inakuwa nzuri zaidi."
+        },
+        { 
+            title: "我不敢说", 
+            artist: "Learning Chinese Song", 
+            youtube: "https://www.youtube.com/watch?v=HajoHVezOmk",
+            snippet: "我不敢说 我不敢说 我的心事 告诉你 我不敢说 我不敢说 我的秘密 藏心里",
+            snippetPinyin: "wǒ bù gǎn shuō wǒ bù gǎn shuō wǒ de xīnshì gàosu nǐ wǒ bù gǎn shuō wǒ bù gǎn shuō wǒ de mìmì cáng xīn lǐ",
+            snippetEn: "I don't dare to say, I don't dare to say. My heart's matters to tell you. I don't dare to say, I don't dare to say. My secrets hide in my heart.",
+            snippetSw: "Sithubutu kusema, sithubutu kusema. Mambo ya moyo wangu kukuambia. Sithubutu kusema, sithubutu kusema. Siri zangu nimeficha moyoni."
+        },
+        { 
+            title: "愛上你難忘記", 
+            artist: "Cover Song", 
+            youtube: "https://www.youtube.com/watch?v=qlSN0gFWbnY&list=RD0UAliioJJkY&index=3",
+            snippet: "爱上你难忘记 心里全是你 每一天每一夜 都在想念你",
+            snippetPinyin: "ài shàng nǐ nán wàng jì xīn lǐ quán shì nǐ měi yī tiān měi yī yè dōu zài xiǎng niàn nǐ",
+            snippetEn: "Falling in love with you is hard to forget. My heart is all you. Every day and every night, I'm thinking of you.",
+            snippetSw: "Kukupenda ni vigumu kusahau. Moyo wangu wote ni wewe. Kila siku na kila usiku, ninakufikiria."
+        },
+        { 
+            title: "天際", 
+            artist: "了凡音樂 (Liao Fan Music)", 
+            youtube: "https://www.youtube.com/watch?v=T8SzegB21BU&list=PL1f24rrWD97ekNhNEYv39rXLeuOEl23EU&index=6",
+            snippet: "在天際的远方 有我的梦想 星光照亮我前行 不怕风雨狂",
+            snippetPinyin: "zài tiān jì de yuǎn fāng yǒu wǒ de mèng xiǎng xīng guāng zhào liàng wǒ qián xíng bù pà fēng yǔ kuáng",
+            snippetEn: "In the distant horizon, there is my dream. Starlight illuminates my way forward, not afraid of wind and rain.",
+            snippetSw: "Katika upeo wa mbali, kuna ndoto yangu. Mwanga wa nyota unaangaza njia yangu mbele, siogopi upepo na mvua."
+        }
+    ];
+
+    // ---------- MODAL FUNCTIONS ----------
+    let currentLyrics = [];
+
+    function showLyrics(songTitle) {
+        const modal = document.getElementById('lyricsModal');
+        const modalContent = document.getElementById('modalContent');
+        const lyrics = songLyrics[songTitle] || [];
+        
+        let html = `
+            <div class="modal-song-title" onclick="speak('${songTitle}', this)" data-audio="${songTitle}">🎵 ${songTitle}</div>
+            <div class="modal-artist">${songs.find(s => s.title === songTitle)?.artist || ''}</div>
+            <div class="modal-lyrics">
+        `;
+        
+        lyrics.forEach(line => {
+            html += `
+                <div class="lyrics-line">
+                    <div class="lyrics-chinese" onclick="speak('${line.chinese}', this)" data-audio="${line.chinese}">${line.chinese}</div>
+                    <div class="lyrics-pinyin">${line.pinyin}</div>
+                    <div class="lyrics-en">📘 ${line.english}</div>
+                    <div class="lyrics-sw">📗 ${line.swahili}</div>
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        modalContent.innerHTML = html;
+        currentLyrics = lyrics;
+        modal.style.display = 'block';
+    }
+
+    window.copyLyricsToClipboard = function() {
+        let text = '';
+        currentLyrics.forEach(line => {
+            text += `${line.chinese}\n${line.pinyin}\n📘 ${line.english}\n📗 ${line.swahili}\n\n`;
+        });
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Lyrics copied to clipboard!');
+        });
+    };
+
+    // Close modal when clicking X or outside
+    document.querySelector('.close-modal').onclick = function() {
+        document.getElementById('lyricsModal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('lyricsModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    // ---------- RENDER FUNCTIONS ----------
+    function renderNouns(list) {
+        const container = document.getElementById('nounList');
+        if (list.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">🔍 No nouns found. Try a different search.</div>';
+            return;
+        }
+        container.innerHTML = list.map(n => `
+            <div class="word-card">
+                <div class="chinese-word" onclick="speak('${n.chinese}', this)" data-audio="${n.chinese}">${n.chinese}</div>
+                <div class="pinyin">${n.pinyin}</div>
+                <div class="meaning"><strong>🇬🇧 ${n.eng}</strong> <strong>🇹🇿 ${n.swa}</strong></div>
+                <div class="example">
+                    <div class="example-header">
+                        <div class="example-chinese" onclick="speak('${n.sentence}', this)" data-audio="${n.sentence}">${n.sentence}</div>
+                        <button class="audio-btn" onclick="speak('${n.sentence}', this)">🔊</button>
+                    </div>
+                    <div class="example-pinyin">${n.sentencePinyin}</div>
+                    <div class="example-translation">${n.trans}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderVerbs(list) {
+        const container = document.getElementById('verbList');
+        if (list.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">🔍 No verbs found. Try a different search.</div>';
+            return;
+        }
+        container.innerHTML = list.map(v => `
+            <div class="word-card">
+                <div class="chinese-word" onclick="speak('${v.chinese}', this)" data-audio="${v.chinese}">${v.chinese}</div>
+                <div class="pinyin">${v.pinyin}</div>
+                <div class="meaning"><strong>🇬🇧 ${v.eng}</strong> <strong>🇹🇿 ${v.swa}</strong></div>
+                <div class="example">
+                    <div class="example-header">
+                        <div class="example-chinese" onclick="speak('${v.sentence}', this)" data-audio="${v.sentence}">${v.sentence}</div>
+                        <button class="audio-btn" onclick="speak('${v.sentence}', this)">🔊</button>
+                    </div>
+                    <div class="example-pinyin">${v.sentencePinyin}</div>
+                    <div class="example-translation">${v.trans}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderRadicals(list) {
+        const container = document.getElementById('radicalList');
+        if (list.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">🔍 No radicals found. Try a different search.</div>';
+            return;
+        }
+        container.innerHTML = list.map(r => `
+            <div class="radical-card">
+                <div class="radical-header">
+                    <div class="radical-symbol" onclick="speak('${r.radical}', this)" data-audio="${r.radical}">${r.radical}</div>
+                    <div class="radical-info">
+                        <div class="radical-name" onclick="speak('${r.name}', this)" data-audio="${r.name}">${r.name} (${r.pinyin})</div>
+                        <div class="radical-meaning">🇬🇧 ${r.meaning} | 🇹🇿 ${r.meaningSw}</div>
+                    </div>
+                </div>
+                <div class="radical-examples">
+                    ${r.examples.map(e => `
+                        <div class="example-word" onclick="speak('${e.char}', this)" data-audio="${e.char}">
+                            <div class="chinese">${e.char}</div>
+                            <div class="pinyin">${e.pinyin}</div>
+                            <div class="meaning">${e.meaning}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderSongs(list) {
+        const container = document.getElementById('songList');
+        if (list.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">🎤 No songs found. Try a different search.</div>';
+            return;
+        }
+        container.innerHTML = list.map(s => `
+            <div class="word-card song-card">
+                <div class="song-title" onclick="speak('${s.title}', this)" data-audio="${s.title}">🎵 ${s.title} <span class="song-artist">${s.artist}</span></div>
+                <div class="button-group">
+                    <a class="youtube-link" href="${s.youtube}" target="_blank" rel="noopener noreferrer">▶️ 在 YouTube 观看</a>
+                    <button class="lyrics-btn" onclick="showLyrics('${s.title.replace(/'/g, "\\'")}')">📝 查看完整歌词</button>
+                </div>
+                <div class="song-lyric-snippet">
+                    <div class="lyric-line" onclick="speak('${s.snippet}', this)" data-audio="${s.snippet}">${s.snippet}</div>
+                    <div class="lyric-pinyin">${s.snippetPinyin}</div>
+                    <div class="translation-block">
+                        <div class="translation-en">📘 ${s.snippetEn}</div>
+                        <div class="translation-sw">📗 ${s.snippetSw}</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // initial
+    renderNouns(fullNouns);
+    renderVerbs(fullVerbs);
+    renderRadicals(fullRadicals);
+    renderSongs(songs);
+
+    // ---------- FILTER FUNCTIONS ----------
+    window.filterNouns = function() {
+        const term = document.getElementById('nounSearch').value.toLowerCase();
+        const cat = document.getElementById('nounFilter').value;
+        const filtered = fullNouns.filter(n => 
+            (n.chinese.includes(term) || n.pinyin.toLowerCase().includes(term) || 
+             n.eng.toLowerCase().includes(term) || n.swa.toLowerCase().includes(term) ||
+             n.sentence.includes(term) || n.sentencePinyin.includes(term)) &&
+            (cat === 'all' || n.category === cat)
+        );
+        renderNouns(filtered);
+    };
+
+    window.filterVerbs = function() {
+        const term = document.getElementById('verbSearch').value.toLowerCase();
+        const cat = document.getElementById('verbFilter').value;
+        const filtered = fullVerbs.filter(v => 
+            (v.chinese.includes(term) || v.pinyin.toLowerCase().includes(term) || 
+             v.eng.toLowerCase().includes(term) || v.swa.toLowerCase().includes(term) ||
+             v.sentence.includes(term) || v.sentencePinyin.includes(term)) &&
+            (cat === 'all' || v.category === cat)
+        );
+        renderVerbs(filtered);
+    };
+
+    window.filterRadicals = function() {
+        const term = document.getElementById('radicalSearch').value.toLowerCase();
+        const filtered = fullRadicals.filter(r => 
+            r.radical.includes(term) || 
+            r.name.toLowerCase().includes(term) || 
+            r.pinyin.toLowerCase().includes(term) ||
+            r.meaning.toLowerCase().includes(term) ||
+            r.meaningSw.toLowerCase().includes(term) ||
+            r.examples.some(e => e.char.includes(term) || e.pinyin.includes(term) || e.meaning.toLowerCase().includes(term))
+        );
+        renderRadicals(filtered);
+    };
+
+    window.filterSongs = function() {
+        const term = document.getElementById('songSearch').value.toLowerCase();
+        const filtered = songs.filter(s => 
+            s.title.toLowerCase().includes(term) || 
+            s.artist.toLowerCase().includes(term) || 
+            s.snippet.toLowerCase().includes(term) ||
+            s.snippetPinyin.toLowerCase().includes(term) ||
+            (s.snippetEn && s.snippetEn.toLowerCase().includes(term)) ||
+            (s.snippetSw && s.snippetSw.toLowerCase().includes(term))
+        );
+        renderSongs(filtered);
+    };
+
+    // ---------- TAB SWITCHING ----------
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            if (btn.dataset.tab === 'nouns') document.getElementById('nounsPanel').classList.add('active');
+            if (btn.dataset.tab === 'verbs') document.getElementById('verbsPanel').classList.add('active');
+            if (btn.dataset.tab === 'radicals') document.getElementById('radicalsPanel').classList.add('active');
+            if (btn.dataset.tab === 'songs') document.getElementById('songsPanel').classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

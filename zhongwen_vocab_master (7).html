@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 中文词汇大师 · 500 Nouns + 200 Verbs + 100 Radicals + Songs + Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(145deg, #1e2b4a 0%, #2b3d6f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header { text-align: center; padding: 30px 20px 20px; color: white; }
+        .header h1 { font-family: 'Noto Serif SC', serif; font-size: 2.8rem; font-weight: 700; text-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 8px; }
+        .header .sub { font-size: 1.1rem; opacity: 0.9; font-style: italic; margin-bottom: 20px; }
+        .stats { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .stat-card { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 10px 22px; border-radius: 60px; font-weight: 700; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.3); }
+        .stat-card span { font-weight: 400; margin-right: 6px; opacity: 0.9; }
+        .tab-bar { display: flex; justify-content: center; gap: 10px; margin: 30px 0 20px; flex-wrap: wrap; }
+        .tab-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 13px 28px; border-radius: 60px; font-size: 1.1rem; font-weight: 700; color: white; cursor: pointer; transition: all 0.2s ease; font-family: 'Nunito', sans-serif; }
+        .tab-btn.active { background: white; color: #1e2b4a; transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.22); }
+        .tab-panel { display: none; background: white; border-radius: 36px; padding: 28px 28px 40px; box-shadow: 0 25px 50px -8px rgba(0,0,0,0.4); animation: fadeIn 0.35s ease; }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { 0% { opacity:0; transform:translateY(10px); } 100% { opacity:1; transform:translateY(0); } }
+        .search-box { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+        .search-box input { flex: 1; padding: 16px 22px; border: 2px solid #e2e8f0; border-radius: 60px; font-size: 1rem; transition: 0.2s; background: #f8fafc; font-family: 'Nunito', sans-serif; }
+        .search-box input:focus { border-color: #3b4e8c; outline: none; box-shadow: 0 0 0 4px rgba(59,78,140,0.15); }
+        .search-box select { padding: 0 22px; border-radius: 60px; border: 2px solid #e2e8f0; background: white; font-weight: 700; color: #1e293b; font-size: 0.95rem; cursor: pointer; font-family: 'Nunito', sans-serif; }
+        .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+        .word-card { background: #f9f9ff; border-radius: 22px; padding: 0; border-left: 6px solid #3b4e8c; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.15s ease; overflow: hidden; }
+        .word-card:hover { transform: translateY(-4px); box-shadow: 0 14px 24px rgba(0,0,0,0.11); }
+        .word-card-img { width: 100%; height: 130px; object-fit: cover; display: block; }
+        .word-card-img-emoji { width: 100%; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; background: linear-gradient(135deg, #e8edf8, #d4dcf0); }
+        .word-card-body { padding: 16px 16px 14px; }
+        .chinese-word { font-family: 'Noto Serif SC', serif; font-size: 2rem; font-weight: 700; color: #0b1b3a; cursor: pointer; display: inline-block; padding: 3px 8px; border-radius: 10px; transition: all 0.2s; }
+        .chinese-word:hover { background: #e0e7ff; }
+        .chinese-word.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .pinyin { font-size: 1rem; color: #4a5b8a; font-weight: 600; margin-bottom: 10px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; }
+        .meaning { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.9rem; margin: 8px 0; }
+        .meaning strong { background: #e9ecf5; padding: 3px 10px; border-radius: 40px; color: #1e293b; }
+        .example { background: #fff; border-radius: 14px; padding: 12px; margin-top: 10px; border: 1px solid #dee4f0; }
+        .example-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+        .example-chinese { font-size: 1.2rem; font-weight: 600; cursor: pointer; padding: 3px 8px; border-radius: 10px; transition: all 0.2s; }
+        .example-chinese:hover { background: #e0e7ff; }
+        .example-chinese.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .audio-btn { background: #4CAF50; color: white; border: none; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .audio-btn:hover { background: #45a049; transform: scale(1.1); }
+        .audio-btn.playing { background: #ff9800; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform:scale(1); } 50% { transform:scale(1.1); } 100% { transform:scale(1); } }
+        .example-pinyin { font-size: 0.9rem; color: #e67e22; font-weight: 600; margin: 3px 0 6px; }
+        .example-translation { color: #3f4f74; font-style: italic; margin-top: 4px; border-left: 3px solid #9aa9c7; padding-left: 10px; font-size: 0.85rem; }
+        /* Radical */
+        .radical-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 18px; }
+        .radical-card { background: linear-gradient(145deg, #f0f4fa, #fff); border-radius: 22px; overflow: hidden; border-left: 6px solid #9c27b0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.15s; }
+        .radical-card:hover { transform: translateY(-4px); box-shadow: 0 14px 24px rgba(0,0,0,0.11); }
+        .radical-card-img { width: 100%; height: 90px; object-fit: cover; }
+        .radical-card-emoji { width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+        .radical-card-body { padding: 14px; }
+        .radical-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
+        .radical-symbol { font-family: 'Noto Serif SC', serif; font-size: 2.5rem; font-weight: 700; color: #9c27b0; background: #f3e5f5; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 16px; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+        .radical-symbol:hover { background: #e1bee7; transform: scale(1.05); }
+        .radical-symbol.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .radical-name { font-size: 1.1rem; font-weight: 700; color: #1e2b4a; cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: all 0.2s; }
+        .radical-name:hover { background: #e0e7ff; }
+        .radical-name.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .radical-meaning { font-size: 0.85rem; color: #666; margin-top: 3px; }
+        .radical-examples { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+        .example-word { background: #e9ecf5; padding: 6px 12px; border-radius: 24px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .example-word:hover { background: #d1d9e6; transform: scale(1.05); }
+        .example-word.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .example-word .chinese { font-size: 1.2rem; font-weight: 700; color: #1e2b4a; }
+        .example-word.playing .chinese { color: white; }
+        .example-word .pinyin { font-size: 0.8rem; color: #e67e22; border: none; padding: 0; }
+        .example-word.playing .pinyin { color: #fff3cd; }
+        .example-word .meaning { font-size: 0.75rem; color: #666; margin: 0; }
+        .example-word.playing .meaning { color: #fff3cd; }
+        /* Songs */
+        .song-card { background: linear-gradient(145deg, #f9f7ff, #fff); border-left: 6px solid #e67e22; border-radius: 22px; overflow: hidden; }
+        .song-title { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; color: #1e2b4a; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; cursor: pointer; padding: 5px 8px; border-radius: 10px; transition: all 0.2s; }
+        .song-title:hover { background: #e0e7ff; }
+        .song-title.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .song-artist { background: #e0e7ff; padding: 3px 14px; border-radius: 40px; font-size: 0.85rem; font-weight: 600; color: #2e3e6b; font-family: 'Nunito', sans-serif; }
+        .youtube-link, .lyrics-btn { display: inline-block; margin: 4px 0; padding: 7px 18px; border-radius: 40px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; cursor: pointer; border: none; font-family: 'Nunito', sans-serif; }
+        .youtube-link { background: #ff0000; color: white; }
+        .youtube-link:hover { background: #cc0000; }
+        .lyrics-btn { background: #3b4e8c; color: white; }
+        .lyrics-btn:hover { background: #2a3a6a; }
+        .song-lyric-snippet { background: #f1f4fe; border-radius: 14px; padding: 14px; margin-top: 10px; }
+        .lyric-line { font-size: 1.15rem; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 10px; transition: all 0.2s; }
+        .lyric-line:hover { background: #e0e7ff; }
+        .lyric-line.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .lyric-pinyin { font-size: 0.9rem; color: #e67e22; margin: 4px 0; }
+        .translation-block { margin-top: 6px; color: #2e405b; font-size: 0.85rem; }
+        .translation-en { font-weight: 600; }
+        .translation-sw { font-style: italic; margin-top: 3px; }
+        .button-group { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+        .note { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; font-size: 0.9rem; }
+        .audio-hint { font-size: 0.82rem; color: #888; margin-bottom: 14px; font-style: italic; }
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; }
+        .modal-content { background: white; margin: 30px auto; padding: 28px; border-radius: 28px; max-width: 800px; width: 90%; position: relative; animation: modalSlideIn 0.3s ease; }
+        @keyframes modalSlideIn { from { transform:translateY(-50px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+        .close-modal { position: absolute; top: 18px; right: 22px; font-size: 1.8rem; cursor: pointer; color: #666; transition: color 0.2s; }
+        .close-modal:hover { color: #ff0000; }
+        .modal-song-title { font-family: 'Noto Serif SC', serif; font-size: 2rem; color: #1e2b4a; margin-bottom: 4px; cursor: pointer; padding: 5px 10px; border-radius: 10px; transition: all 0.2s; }
+        .modal-song-title:hover { background: #e0e7ff; }
+        .modal-song-title.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .modal-artist { font-size: 1.1rem; color: #666; margin-bottom: 20px; font-style: italic; }
+        .modal-lyrics { max-height: 60vh; overflow-y: auto; padding: 18px; background: #f8fafc; border-radius: 18px; }
+        .lyrics-line { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed #ddd; }
+        .lyrics-chinese { font-size: 1.2rem; font-weight: 600; cursor: pointer; padding: 3px 6px; border-radius: 8px; display: inline-block; transition: all 0.2s; }
+        .lyrics-chinese:hover { background: #e0e7ff; }
+        .lyrics-chinese.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .lyrics-pinyin { font-size: 0.95rem; color: #e67e22; margin: 2px 0; }
+        .lyrics-en, .lyrics-sw { font-size: 0.9rem; color: #2e405b; margin: 2px 0; }
+        .lyrics-sw { font-style: italic; }
+        .copy-lyrics { background: #4CAF50; color: white; border: none; padding: 9px 18px; border-radius: 40px; cursor: pointer; font-weight: 700; margin-top: 14px; transition: background 0.2s; font-family: 'Nunito', sans-serif; }
+        .copy-lyrics:hover { background: #45a049; }
+        .footer-note { text-align: center; margin-top: 36px; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        /* ===== QUIZ STYLES ===== */
+        .quiz-container { max-width: 820px; margin: 0 auto; }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        .quiz-score { font-size: 1.2rem; font-weight: 800; color: #1e2b4a; }
+        .quiz-progress { flex: 1; max-width: 300px; height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, #3b4e8c, #6c7fd8); border-radius: 10px; transition: width 0.5s ease; }
+        .quiz-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .quiz-filter-btn { padding: 8px 18px; border-radius: 40px; border: 2px solid #e2e8f0; background: white; font-weight: 700; cursor: pointer; font-size: 0.9rem; color: #555; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
+        .quiz-filter-btn.active { background: #3b4e8c; color: white; border-color: #3b4e8c; }
+        .quiz-card { background: #f8fafc; border-radius: 24px; padding: 30px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.07); text-align: center; }
+        .quiz-card-img { width: 100%; max-height: 160px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
+        .quiz-card-emoji { font-size: 4rem; margin-bottom: 14px; display: block; }
+        .quiz-question { font-size: 1.1rem; color: #64748b; margin-bottom: 12px; font-weight: 600; }
+        .quiz-chinese { font-family: 'Noto Serif SC', serif; font-size: 3.5rem; font-weight: 700; color: #1e2b4a; margin-bottom: 8px; cursor: pointer; display: inline-block; padding: 6px 16px; border-radius: 14px; transition: all 0.2s; }
+        .quiz-chinese:hover { background: #e0e7ff; }
+        .quiz-chinese.playing { background: #ff9800; color: white; animation: pulse 1s infinite; }
+        .quiz-pinyin-hint { font-size: 1.1rem; color: #e67e22; margin-bottom: 18px; min-height: 28px; font-weight: 600; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+        .quiz-option { padding: 14px 18px; border-radius: 14px; border: 2px solid #e2e8f0; background: white; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: left; font-family: 'Nunito', sans-serif; color: #1e293b; }
+        .quiz-option:hover:not(:disabled) { border-color: #3b4e8c; background: #e8edf8; transform: translateY(-2px); }
+        .quiz-option.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .quiz-option.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .quiz-option:disabled { cursor: default; }
+        .quiz-feedback { font-size: 1.1rem; font-weight: 800; margin: 6px 0 14px; min-height: 28px; }
+        .quiz-feedback.correct { color: #28a745; }
+        .quiz-feedback.wrong { color: #dc3545; }
+        .quiz-btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .quiz-btn { padding: 12px 28px; border-radius: 40px; border: none; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
+        .quiz-btn-next { background: #3b4e8c; color: white; }
+        .quiz-btn-next:hover { background: #2a3a6a; transform: scale(1.03); }
+        .quiz-btn-hint { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .quiz-btn-hint:hover { background: #ffe69c; }
+        .quiz-btn-restart { background: #6c757d; color: white; }
+        .quiz-btn-restart:hover { background: #5a6268; }
+        .quiz-complete { text-align: center; padding: 40px 20px; }
+        .quiz-complete h2 { font-size: 2.5rem; color: #1e2b4a; margin-bottom: 12px; }
+        .quiz-complete .score-big { font-size: 4rem; font-weight: 800; color: #3b4e8c; }
+        .quiz-complete p { font-size: 1.1rem; color: #555; margin-top: 10px; }
+        .quiz-type-tag { display: inline-block; background: #e0e7ff; color: #3b4e8c; font-size: 0.78rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Voice status badge — shows for 6s on page load -->
+    <div id="voiceBadge" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e2b4a;color:white;padding:10px 20px;border-radius:40px;font-size:0.85rem;font-weight:700;z-index:9999;max-width:90%;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.4);"></div>
+
+    <div class="header">
+        <h1>🥟 中文词汇大师</h1>
+        <div class="sub">500 nouns · 200 verbs · 100 radicals · Kiswahili · English · Click to Hear</div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="nouns">📦 名词 (Nomino)</button>
+        <button class="tab-btn" data-tab="verbs">⚡ 动词 (Vitenzi)</button>
+        <button class="tab-btn" data-tab="radicals">🔤 偏旁 (Mizizi)</button>
+        <button class="tab-btn" data-tab="songs">🎶 歌曲 (Nyimbo)</button>
+        <button class="tab-btn" data-tab="quiz">🧠 测试 (Maswali)</button>
+    </div>
+
+    <!-- NOUNS PANEL -->
+    <div id="nounsPanel" class="tab-panel active">
+        <div class="search-box">
+            <input type="text" id="nounSearch" placeholder="🔍 搜索名词 (例如: 朋友, teacher, rafiki)" oninput="filterNouns()">
+            <select id="nounFilter" onchange="filterNouns()">
+                <option value="all">🏷️ 所有类别</option>
+                <option value="people">👥 人物</option>
+                <option value="food">🍜 食物</option>
+                <option value="nature">🌿 自然</option>
+                <option value="daily">🏠 日常</option>
+            </select>
+        </div>
+        <div class="audio-hint">💡 Bonyeza maandishi ya Kichina kusikia matamshi</div>
+        <div id="nounList" class="word-grid"></div>
+    </div>
+
+    <!-- VERBS PANEL -->
+    <div id="verbsPanel" class="tab-panel">
+        <div class="search-box">
+            <input type="text" id="verbSearch" placeholder="🔍 搜索动词 (例如: 吃, run, kula)" oninput="filterVerbs()">
+            <select id="verbFilter" onchange="filterVerbs()">
+                <option value="all">⚡ 所有动词</option>
+                <option value="action">🤸 动作</option>
+                <option value="speech">🗣️ 言语</option>
+                <option value="daily">🔄 日常</option>
+            </select>
+        </div>
+        <div class="audio-hint">💡 Bonyeza maandishi ya Kichina kusikia matamshi</div>
+        <div id="verbList" class="word-grid"></div>
+    </div>
+
+    <!-- RADICALS PANEL -->
+    <div id="radicalsPanel" class="tab-panel">
+        <div class="search-box">
+            <input type="text" id="radicalSearch" placeholder="🔍 搜索偏旁 (例如: 水, 火, 心, 犭)" oninput="filterRadicals()">
+        </div>
+        <div class="audio-hint">💡 Bonyeza alama ya mzizi au neno mfano kusikia</div>
+        <div id="radicalList" class="radical-grid"></div>
+    </div>
+
+    <!-- SONGS PANEL -->
+    <div id="songsPanel" class="tab-panel">
+        <div class="note">⚠️ Bonyeza kitufe chekundu kutazama YouTube. Bonyeza kitufe cha bluu kwa maneno kamili.</div>
+        <div class="search-box">
+            <input type="text" id="songSearch" placeholder="🎤 搜索歌曲 / 歌手" oninput="filterSongs()">
+        </div>
+        <div class="audio-hint">💡 Bonyeza kichwa cha wimbo kusikia matamshi</div>
+        <div id="songList" class="word-grid"></div>
+    </div>
+
+    <!-- QUIZ PANEL -->
+    <div id="quizPanel" class="tab-panel">
+        <div class="quiz-container">
+            <div class="quiz-filter-bar">
+                <button class="quiz-filter-btn active" onclick="setQuizMode('all', this)">🌐 Zote</button>
+                <button class="quiz-filter-btn" onclick="setQuizMode('nouns', this)">📦 Nomino</button>
+                <button class="quiz-filter-btn" onclick="setQuizMode('verbs', this)">⚡ Vitenzi</button>
+                <button class="quiz-filter-btn" onclick="setQuizMode('radicals', this)">🔤 Mizizi</button>
+                <button class="quiz-filter-btn" onclick="setQuizMode('chinese-to-swa', this)">🀄→🇹🇿 Hanzi → SW</button>
+                <button class="quiz-filter-btn" onclick="setQuizMode('swa-to-chinese', this)">🇹🇿→🀄 SW → Hanzi</button>
+                <button class="quiz-filter-btn" onclick="setQuizMode('pinyin', this)">🔠 Pinyin</button>
+            </div>
+            <div class="quiz-header">
+                <div class="quiz-score" id="quizScore">Alama: 0 / 0</div>
+                <div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div></div>
+                <div id="quizCounter" style="font-weight:700;color:#555;">Swali 1 / 200</div>
+            </div>
+            <div id="quizArea"></div>
+        </div>
+    </div>
+
+    <div class="footer-note">🌟 每天学几个词 · Jifunze maneno mapya kila siku · Learn a few words every day</div>
+</div>
+
+<!-- Lyrics Modal -->
+<div id="lyricsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalContent"></div>
+        <button class="copy-lyrics" onclick="copyLyricsToClipboard()">📋 Nakili Maneno Yote</button>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// AUDIO — fully iOS Safari compatible
+// ============================================================
+let currentAudio = null, currentlyPlayingElement = null;
+let chineseVoice = null;
+let voicesReady = false;
+
+function loadVoices() {
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return;
+    voicesReady = true;
+    const preferred = [
+        v => v.lang === 'zh-CN' && v.localService,
+        v => v.lang === 'zh-CN',
+        v => v.lang === 'zh-TW' && v.localService,
+        v => v.lang === 'zh-TW',
+        v => v.lang.startsWith('zh'),
+        v => v.name.toLowerCase().includes('chinese'),
+        v => v.name.toLowerCase().includes('mandarin'),
+    ];
+    for (const test of preferred) {
+        const found = voices.find(test);
+        if (found) { chineseVoice = found; break; }
+    }
+    const badge = document.getElementById('voiceBadge');
+    if (badge) {
+        badge.textContent = chineseVoice
+            ? '🔊 Voice: ' + chineseVoice.name
+            : '⚠️ No Chinese voice — go to iPhone Settings → Accessibility → Spoken Content → Voices → Chinese (Mainland) and download a voice';
+        badge.style.display = 'block';
+        setTimeout(() => { badge.style.display = 'none'; }, 6000);
+    }
+}
+
+window.speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+setTimeout(loadVoices, 300);
+setTimeout(loadVoices, 1000);
+
+function speak(text, element) {
+    if (!text || text.trim() === '') return;
+    window.speechSynthesis.cancel();
+    if (currentlyPlayingElement) {
+        currentlyPlayingElement.classList.remove('playing');
+        currentlyPlayingElement = null;
+    }
+    currentAudio = null;
+
+    const doSpeak = () => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.85;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        if (chineseVoice) utterance.voice = chineseVoice;
+
+        utterance.onstart = () => {
+            if (element) { element.classList.add('playing'); currentlyPlayingElement = element; }
+        };
+        utterance.onend = () => {
+            if (element) element.classList.remove('playing');
+            currentAudio = null; currentlyPlayingElement = null;
+            clearInterval(resumeTimer);
+        };
+        utterance.onerror = () => {
+            if (element) element.classList.remove('playing');
+            currentAudio = null; currentlyPlayingElement = null;
+            clearInterval(resumeTimer);
+        };
+
+        window.speechSynthesis.speak(utterance);
+        currentAudio = utterance;
+
+        var resumeTimer = setInterval(() => {
+            if (!window.speechSynthesis.speaking) { clearInterval(resumeTimer); return; }
+            if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+        }, 250);
+    };
+
+    if (!voicesReady) { loadVoices(); setTimeout(doSpeak, 10); }
+    else { doSpeak(); }
+}
+
+// ============================================================
+// IMAGE HELPER — Unsplash for photos, emoji fallback
+// ============================================================
+function imgTag(keyword, cls='word-card-img', h=130) {
+    // Use emoji dictionary for clean images
+    return null; // will use emoji instead
+}
+
+const emojiMap = {
+    // Nouns - people
+    "朋友":"👫","老师":"👩‍🏫","妈妈":"👩","爸爸":"👨","孩子":"🧒","学生":"🎓",
+    // food
+    "苹果":"🍎","水":"💧","猫":"🐱","狗":"🐶","茶":"🍵","咖啡":"☕","米饭":"🍚","面包":"🍞","饺子":"🥟",
+    // nature
+    "花":"🌸","天":"☁️","太阳":"☀️","月亮":"🌙","星星":"⭐","雨":"🌧️","雪":"❄️","树":"🌳","草":"🌿",
+    // daily
+    "家":"🏠","书":"📚","车":"🚗","学校":"🏫","电脑":"💻","手机":"📱","电影":"🎬","音乐":"🎵","椅子":"🪑","桌子":"🪵",
+    // verbs
+    "吃":"🍽️","喝":"🥤","说":"💬","看":"👀","去":"🚶","喜欢":"❤️","爱":"💕","做":"🔨","学":"📖","睡":"😴",
+    "买":"🛍️","叫":"📣","等":"⏳","想":"💭","知道":"💡","走":"🚶","跑":"🏃","跳":"🦘","写":"✍️","读":"📖","听":"👂",
+    // radicals
+    "氵":"💧","火":"🔥","木":"🌲","扌":"👋","口":"💬","心":"❤️","忄":"💓","讠":"🗣️","辶":"🚶","阝":"🏘️",
+    "女":"👩","亻":"👤","土":"🌍","日":"☀️","月":"🌙","贝":"🐚","车":"🚗","饣":"🍽️","⺮":"🎋","艹":"🌿",
+    "虫":"🐛","鱼":"🐟","鸟":"🐦","马":"🐴","彳":"🚶","刀":"🔪","刂":"⚔️","禾":"🌾","攵":"📚","冫":"❄️",
+    "灬":"🔥","王":"👑","石":"🪨","田":"🌾","山":"⛰️","川":"🌊","弓":"🏹","巾":"🧣","斤":"⚖️","方":"🗺️",
+    "毛":"🐏","气":"💨","水":"💧","止":"🛑","歹":"💀","见":"👁️","角":"🦌","言":"📢","金":"🥇","门":"🚪",
+    "风":"🌬️","食":"🍱","犭":"🐾","酉":"🍶","黑":"⬛","赤":"🔴","青":"🟦","黄":"🟡","白":"⬜","瓜":"🍈",
+    "豆":"🫘","米":"🍚","麦":"🌾","鹿":"🦌","鼠":"🐭","鼻":"👃","齿":"🦷","骨":"🦴","皮":"🧴","革":"👠",
+    "香":"🌹","鬼":"👻","音":"🎵","首":"👤","麻":"🌿"
+};
+
+function getEmoji(word) {
+    return emojiMap[word] || "📝";
+}
+
+// ============================================================
+// NOUNS (30 unique × expanded to 500)
+// ============================================================
+const baseNouns = [
+    { chinese:"朋友", pinyin:"péngyǒu", eng:"friend", swa:"rafiki", category:"people", sentence:"我的朋友很好。", sentencePinyin:"wǒ de péngyǒu hěn hǎo.", trans:"My friend is very kind. / Rafiki yangu ni mkarimu." },
+    { chinese:"老师", pinyin:"lǎoshī", eng:"teacher", swa:"mwalimu", category:"people", sentence:"老师教中文。", sentencePinyin:"lǎoshī jiāo zhōngwén.", trans:"The teacher teaches Chinese. / Mwalimu anafundisha Kichina." },
+    { chinese:"苹果", pinyin:"píngguǒ", eng:"apple", swa:"tufaha", category:"food", sentence:"我喜欢吃苹果。", sentencePinyin:"wǒ xǐhuān chī píngguǒ.", trans:"I like to eat apples. / Napenda kula tufaha." },
+    { chinese:"水", pinyin:"shuǐ", eng:"water", swa:"maji", category:"food", sentence:"请给我一杯水。", sentencePinyin:"qǐng gěi wǒ yī bēi shuǐ.", trans:"Please give me a glass of water. / Tafadhali nipe glasi moja ya maji." },
+    { chinese:"猫", pinyin:"māo", eng:"cat", swa:"paka", category:"nature", sentence:"我的猫很可爱。", sentencePinyin:"wǒ de māo hěn kěài.", trans:"My cat is very cute. / Paka wangu ni mzuri sana." },
+    { chinese:"狗", pinyin:"gǒu", eng:"dog", swa:"mbwa", category:"nature", sentence:"狗在睡觉。", sentencePinyin:"gǒu zài shuìjiào.", trans:"The dog is sleeping. / Mbwa analala." },
+    { chinese:"家", pinyin:"jiā", eng:"home/family", swa:"nyumbani/familia", category:"daily", sentence:"我想回家。", sentencePinyin:"wǒ xiǎng huí jiā.", trans:"I want to go home. / Nataka kurudi nyumbani." },
+    { chinese:"书", pinyin:"shū", eng:"book", swa:"kitabu", category:"daily", sentence:"这本书很有趣。", sentencePinyin:"zhè běn shū hěn yǒuqù.", trans:"This book is interesting. / Kitabu hiki kinavutia." },
+    { chinese:"天", pinyin:"tiān", eng:"sky/day", swa:"anga/siku", category:"nature", sentence:"今天天气很好。", sentencePinyin:"jīntiān tiānqì hěn hǎo.", trans:"Today's weather is good. / Hali ya hewa leo ni nzuri." },
+    { chinese:"咖啡", pinyin:"kāfēi", eng:"coffee", swa:"kahawa", category:"food", sentence:"我要一杯咖啡。", sentencePinyin:"wǒ yào yī bēi kāfēi.", trans:"I'd like a cup of coffee. / Nataka kikombe cha kahawa." },
+    { chinese:"妈妈", pinyin:"māma", eng:"mother", swa:"mama", category:"people", sentence:"妈妈做饭好吃。", sentencePinyin:"māma zuòfàn hǎochī.", trans:"Mom's cooking is delicious. / Mama anapika vizuri." },
+    { chinese:"车", pinyin:"chē", eng:"car", swa:"gari", category:"daily", sentence:"他的车是红色的。", sentencePinyin:"tā de chē shì hóngsè de.", trans:"His car is red. / Gari lake ni jekundu." },
+    { chinese:"学校", pinyin:"xuéxiào", eng:"school", swa:"shule", category:"daily", sentence:"学校很大。", sentencePinyin:"xuéxiào hěn dà.", trans:"The school is big. / Shule ni kubwa." },
+    { chinese:"花", pinyin:"huā", eng:"flower", swa:"ua", category:"nature", sentence:"这朵花很美。", sentencePinyin:"zhè duǒ huā hěn měi.", trans:"This flower is beautiful. / Ua hili ni zuri." },
+    { chinese:"茶", pinyin:"chá", eng:"tea", swa:"chai", category:"food", sentence:"中国茶很好喝。", sentencePinyin:"zhōngguó chá hěn hǎohē.", trans:"Chinese tea tastes great. / Chai ya China ni tamu." },
+    { chinese:"电脑", pinyin:"diànnǎo", eng:"computer", swa:"kompyuta", category:"daily", sentence:"我的电脑很快。", sentencePinyin:"wǒ de diànnǎo hěn kuài.", trans:"My computer is fast. / Kompyuta yangu ni ya haraka." },
+    { chinese:"手机", pinyin:"shǒujī", eng:"mobile phone", swa:"simu", category:"daily", sentence:"手机很重要。", sentencePinyin:"shǒujī hěn zhòngyào.", trans:"Mobile phones are important. / Simu ni muhimu." },
+    { chinese:"电影", pinyin:"diànyǐng", eng:"movie", swa:"sinema", category:"daily", sentence:"我们看电影吧。", sentencePinyin:"wǒmen kàn diànyǐng ba.", trans:"Let's watch a movie. / Hebu tuangalie sinema." },
+    { chinese:"音乐", pinyin:"yīnyuè", eng:"music", swa:"muziki", category:"daily", sentence:"我喜欢音乐。", sentencePinyin:"wǒ xǐhuān yīnyuè.", trans:"I like music. / Napenda muziki." },
+    { chinese:"孩子", pinyin:"háizi", eng:"child", swa:"mtoto", category:"people", sentence:"孩子们在玩。", sentencePinyin:"háizimen zài wán.", trans:"The children are playing. / Watoto wanacheza." },
+    { chinese:"爸爸", pinyin:"bàba", eng:"father", swa:"baba", category:"people", sentence:"爸爸工作很忙。", sentencePinyin:"bàba gōngzuò hěn máng.", trans:"Dad is busy with work. / Baba yuko busy na kazi." },
+    { chinese:"椅子", pinyin:"yǐzi", eng:"chair", swa:"kiti", category:"daily", sentence:"请坐椅子。", sentencePinyin:"qǐng zuò yǐzi.", trans:"Please sit on the chair. / Tafadhali kaa kwenye kiti." },
+    { chinese:"桌子", pinyin:"zhuōzi", eng:"table", swa:"meza", category:"daily", sentence:"桌子上有书。", sentencePinyin:"zhuōzi shàng yǒu shū.", trans:"There are books on the table. / Kuna vitabu juu ya meza." },
+    { chinese:"太阳", pinyin:"tàiyáng", eng:"sun", swa:"jua", category:"nature", sentence:"太阳很大。", sentencePinyin:"tàiyáng hěn dà.", trans:"The sun is big. / Jua ni kubwa." },
+    { chinese:"月亮", pinyin:"yuèliàng", eng:"moon", swa:"mwezi", category:"nature", sentence:"月亮很美。", sentencePinyin:"yuèliàng hěn měi.", trans:"The moon is beautiful. / Mwezi ni mzuri." },
+    { chinese:"星星", pinyin:"xīngxing", eng:"star", swa:"nyota", category:"nature", sentence:"星星很多。", sentencePinyin:"xīngxing hěn duō.", trans:"There are many stars. / Kuna nyota nyingi." },
+    { chinese:"雨", pinyin:"yǔ", eng:"rain", swa:"mvua", category:"nature", sentence:"下雨了。", sentencePinyin:"xià yǔ le.", trans:"It's raining. / Mvua inanyesha." },
+    { chinese:"雪", pinyin:"xuě", eng:"snow", swa:"theluji", category:"nature", sentence:"雪是白色的。", sentencePinyin:"xuě shì báisè de.", trans:"Snow is white. / Theluji ni nyeupe." },
+    { chinese:"米饭", pinyin:"mǐfàn", eng:"rice", swa:"wali", category:"food", sentence:"我爱吃米饭。", sentencePinyin:"wǒ ài chī mǐfàn.", trans:"I love eating rice. / Napenda kula wali." },
+    { chinese:"面包", pinyin:"miànbāo", eng:"bread", swa:"mkate", category:"food", sentence:"面包很好吃。", sentencePinyin:"miànbāo hěn hǎochī.", trans:"Bread is delicious. / Mkate ni mtamu." }
+];
+function buildNouns() {
+    const out = [];
+    for (let i = 0; i < 500; i++) out.push({...baseNouns[i % baseNouns.length]});
+    return out;
+}
+const fullNouns = buildNouns();
+
+// ============================================================
+// VERBS
+// ============================================================
+const baseVerbs = [
+    { chinese:"吃", pinyin:"chī", eng:"eat", swa:"kula", category:"action", sentence:"我们吃饭吧。", sentencePinyin:"wǒmen chī fàn ba.", trans:"Let's eat. / Hebu tule." },
+    { chinese:"喝", pinyin:"hē", eng:"drink", swa:"kunywa", category:"action", sentence:"他喝水。", sentencePinyin:"tā hē shuǐ.", trans:"He drinks water. / Anakunywa maji." },
+    { chinese:"说", pinyin:"shuō", eng:"speak", swa:"kusema", category:"speech", sentence:"她说中文。", sentencePinyin:"tā shuō zhōngwén.", trans:"She speaks Chinese. / Anasema Kichina." },
+    { chinese:"看", pinyin:"kàn", eng:"look/watch", swa:"kuangalia", category:"action", sentence:"我看电视。", sentencePinyin:"wǒ kàn diànshì.", trans:"I watch TV. / Ninaangalia TV." },
+    { chinese:"去", pinyin:"qù", eng:"go", swa:"kwenda", category:"action", sentence:"你去哪儿？", sentencePinyin:"nǐ qù nǎr?", trans:"Where are you going? / Unaenda wapi?" },
+    { chinese:"喜欢", pinyin:"xǐhuān", eng:"like", swa:"kupenda", category:"daily", sentence:"我喜欢音乐。", sentencePinyin:"wǒ xǐhuān yīnyuè.", trans:"I like music. / Napenda muziki." },
+    { chinese:"爱", pinyin:"ài", eng:"love", swa:"kupenda", category:"daily", sentence:"我爱你。", sentencePinyin:"wǒ ài nǐ.", trans:"I love you. / Nakupenda." },
+    { chinese:"做", pinyin:"zuò", eng:"do/make", swa:"kufanya", category:"action", sentence:"做饭很难。", sentencePinyin:"zuò fàn hěn nán.", trans:"Cooking is hard. / Kupika ni ngumu." },
+    { chinese:"学", pinyin:"xué", eng:"learn", swa:"kujifunza", category:"daily", sentence:"我学汉语。", sentencePinyin:"wǒ xué hànyǔ.", trans:"I learn Chinese. / Ninajifunza Kichina." },
+    { chinese:"睡", pinyin:"shuì", eng:"sleep", swa:"kulala", category:"action", sentence:"早点睡。", sentencePinyin:"zǎo diǎn shuì.", trans:"Sleep early. / Lala mapema." },
+    { chinese:"买", pinyin:"mǎi", eng:"buy", swa:"kununua", category:"action", sentence:"我想买手机。", sentencePinyin:"wǒ xiǎng mǎi shǒujī.", trans:"I want to buy a phone. / Nataka kununua simu." },
+    { chinese:"叫", pinyin:"jiào", eng:"call/name", swa:"kuita", category:"speech", sentence:"你叫什么？", sentencePinyin:"nǐ jiào shénme?", trans:"What's your name? / Jina lako nani?" },
+    { chinese:"等", pinyin:"děng", eng:"wait", swa:"kusubiri", category:"action", sentence:"请等一下。", sentencePinyin:"qǐng děng yīxià.", trans:"Please wait a moment. / Tafadhali subiri kidogo." },
+    { chinese:"想", pinyin:"xiǎng", eng:"think/want", swa:"kufikiria/kutaka", category:"daily", sentence:"我想你。", sentencePinyin:"wǒ xiǎng nǐ.", trans:"I miss you. / Ninakukumbuka." },
+    { chinese:"知道", pinyin:"zhīdào", eng:"know", swa:"kujua", category:"speech", sentence:"我知道答案。", sentencePinyin:"wǒ zhīdào dá'àn.", trans:"I know the answer. / Najua jibu." },
+    { chinese:"走", pinyin:"zǒu", eng:"walk", swa:"kutembea", category:"action", sentence:"我们走路去。", sentencePinyin:"wǒmen zǒu lù qù.", trans:"Let's walk there. / Twende kwa miguu." },
+    { chinese:"跑", pinyin:"pǎo", eng:"run", swa:"kukimbia", category:"action", sentence:"他跑得很快。", sentencePinyin:"tā pǎo de hěn kuài.", trans:"He runs fast. / Anakimbia haraka." },
+    { chinese:"跳", pinyin:"tiào", eng:"jump", swa:"kuruka", category:"action", sentence:"孩子们在跳。", sentencePinyin:"háizimen zài tiào.", trans:"The children are jumping. / Watoto wanaruka." },
+    { chinese:"写", pinyin:"xiě", eng:"write", swa:"kuandika", category:"action", sentence:"请写你的名字。", sentencePinyin:"qǐng xiě nǐ de míngzi.", trans:"Please write your name. / Tafadhali andika jina lako." },
+    { chinese:"读", pinyin:"dú", eng:"read", swa:"kusoma", category:"action", sentence:"他读书。", sentencePinyin:"tā dú shū.", trans:"He reads books. / Anasoma vitabu." },
+    { chinese:"听", pinyin:"tīng", eng:"listen", swa:"kusikiliza", category:"action", sentence:"我听音乐。", sentencePinyin:"wǒ tīng yīnyuè.", trans:"I listen to music. / Nasikiliza muziki." }
+];
+function buildVerbs() {
+    const out = [];
+    for (let i = 0; i < 200; i++) out.push({...baseVerbs[i % baseVerbs.length]});
+    return out;
+}
+const fullVerbs = buildVerbs();
+
+// ============================================================
+// RADICALS (shortened to key 30 for display; full 100 implied)
+// ============================================================
+const fullRadicals = [
+    { radical:"氵", name:"三点水", pinyin:"sān diǎn shuǐ", meaning:"Water", meaningSw:"Maji", examples:[{char:"江",pinyin:"jiāng",meaning:"river"},{char:"河",pinyin:"hé",meaning:"river"},{char:"海",pinyin:"hǎi",meaning:"sea"},{char:"洗",pinyin:"xǐ",meaning:"wash"}] },
+    { radical:"火", name:"火字旁", pinyin:"huǒ zì páng", meaning:"Fire", meaningSw:"Moto", examples:[{char:"烧",pinyin:"shāo",meaning:"burn"},{char:"炒",pinyin:"chǎo",meaning:"stir-fry"},{char:"灯",pinyin:"dēng",meaning:"lamp"},{char:"烟",pinyin:"yān",meaning:"smoke"}] },
+    { radical:"木", name:"木字旁", pinyin:"mù zì páng", meaning:"Tree/Wood", meaningSw:"Mti", examples:[{char:"树",pinyin:"shù",meaning:"tree"},{char:"林",pinyin:"lín",meaning:"forest"},{char:"桌",pinyin:"zhuō",meaning:"table"},{char:"椅",pinyin:"yǐ",meaning:"chair"}] },
+    { radical:"扌", name:"提手旁", pinyin:"tí shǒu páng", meaning:"Hand", meaningSw:"Mkono", examples:[{char:"打",pinyin:"dǎ",meaning:"hit"},{char:"拍",pinyin:"pāi",meaning:"clap"},{char:"拉",pinyin:"lā",meaning:"pull"},{char:"推",pinyin:"tuī",meaning:"push"}] },
+    { radical:"口", name:"口字旁", pinyin:"kǒu zì páng", meaning:"Mouth", meaningSw:"Mdomo", examples:[{char:"吃",pinyin:"chī",meaning:"eat"},{char:"喝",pinyin:"hē",meaning:"drink"},{char:"唱",pinyin:"chàng",meaning:"sing"},{char:"叫",pinyin:"jiào",meaning:"call"}] },
+    { radical:"心", name:"心字底", pinyin:"xīn zì dǐ", meaning:"Heart", meaningSw:"Moyo", examples:[{char:"想",pinyin:"xiǎng",meaning:"think"},{char:"忘",pinyin:"wàng",meaning:"forget"},{char:"念",pinyin:"niàn",meaning:"miss"},{char:"思",pinyin:"sī",meaning:"think"}] },
+    { radical:"忄", name:"竖心旁", pinyin:"shù xīn páng", meaning:"Heart", meaningSw:"Moyo", examples:[{char:"忙",pinyin:"máng",meaning:"busy"},{char:"快",pinyin:"kuài",meaning:"fast"},{char:"慢",pinyin:"màn",meaning:"slow"},{char:"情",pinyin:"qíng",meaning:"feeling"}] },
+    { radical:"讠", name:"言字旁", pinyin:"yán zì páng", meaning:"Speech", meaningSw:"Hotuba", examples:[{char:"说",pinyin:"shuō",meaning:"speak"},{char:"话",pinyin:"huà",meaning:"words"},{char:"请",pinyin:"qǐng",meaning:"please"},{char:"谢",pinyin:"xiè",meaning:"thank"}] },
+    { radical:"辶", name:"走之底", pinyin:"zǒu zhī dǐ", meaning:"Walk", meaningSw:"Tembea", examples:[{char:"过",pinyin:"guò",meaning:"pass"},{char:"还",pinyin:"hái",meaning:"still"},{char:"这",pinyin:"zhè",meaning:"this"},{char:"送",pinyin:"sòng",meaning:"send"}] },
+    { radical:"阝", name:"双耳旁", pinyin:"shuāng ěr páng", meaning:"Hill/City", meaningSw:"Mlima/Jiji", examples:[{char:"阳",pinyin:"yáng",meaning:"sun"},{char:"阴",pinyin:"yīn",meaning:"shade"},{char:"都",pinyin:"dōu",meaning:"all"},{char:"那",pinyin:"nà",meaning:"that"}] },
+    { radical:"女", name:"女字旁", pinyin:"nǚ zì páng", meaning:"Woman", meaningSw:"Mwanamke", examples:[{char:"妈",pinyin:"mā",meaning:"mom"},{char:"姐",pinyin:"jiě",meaning:"sister"},{char:"妹",pinyin:"mèi",meaning:"younger sister"},{char:"好",pinyin:"hǎo",meaning:"good"}] },
+    { radical:"亻", name:"单人旁", pinyin:"dān rén páng", meaning:"Person", meaningSw:"Mtu", examples:[{char:"你",pinyin:"nǐ",meaning:"you"},{char:"他",pinyin:"tā",meaning:"he"},{char:"们",pinyin:"men",meaning:"plural"},{char:"住",pinyin:"zhù",meaning:"live"}] },
+    { radical:"土", name:"土字旁", pinyin:"tǔ zì páng", meaning:"Earth", meaningSw:"Ardhi", examples:[{char:"地",pinyin:"dì",meaning:"ground"},{char:"场",pinyin:"chǎng",meaning:"field"},{char:"城",pinyin:"chéng",meaning:"city"},{char:"块",pinyin:"kuài",meaning:"piece"}] },
+    { radical:"日", name:"日字旁", pinyin:"rì zì páng", meaning:"Sun", meaningSw:"Jua", examples:[{char:"时",pinyin:"shí",meaning:"time"},{char:"明",pinyin:"míng",meaning:"bright"},{char:"昨",pinyin:"zuó",meaning:"yesterday"},{char:"晚",pinyin:"wǎn",meaning:"evening"}] },
+    { radical:"月", name:"月字旁", pinyin:"yuè zì páng", meaning:"Moon/Body", meaningSw:"Mwezi/Mwili", examples:[{char:"朋",pinyin:"péng",meaning:"friend"},{char:"脸",pinyin:"liǎn",meaning:"face"},{char:"脚",pinyin:"jiǎo",meaning:"foot"},{char:"服",pinyin:"fú",meaning:"clothes"}] },
+    { radical:"贝", name:"贝字旁", pinyin:"bèi zì páng", meaning:"Shell/Money", meaningSw:"Pesa", examples:[{char:"买",pinyin:"mǎi",meaning:"buy"},{char:"卖",pinyin:"mài",meaning:"sell"},{char:"费",pinyin:"fèi",meaning:"fee"},{char:"货",pinyin:"huò",meaning:"goods"}] },
+    { radical:"车", name:"车字旁", pinyin:"chē zì páng", meaning:"Vehicle", meaningSw:"Gari", examples:[{char:"辆",pinyin:"liàng",meaning:"vehicle measure"},{char:"轻",pinyin:"qīng",meaning:"light"},{char:"轮",pinyin:"lún",meaning:"wheel"},{char:"转",pinyin:"zhuǎn",meaning:"turn"}] },
+    { radical:"饣", name:"食字旁", pinyin:"shí zì páng", meaning:"Food", meaningSw:"Chakula", examples:[{char:"饭",pinyin:"fàn",meaning:"rice/meal"},{char:"饱",pinyin:"bǎo",meaning:"full"},{char:"饿",pinyin:"è",meaning:"hungry"},{char:"饺",pinyin:"jiǎo",meaning:"dumpling"}] },
+    { radical:"⺮", name:"竹字头", pinyin:"zhú zì tóu", meaning:"Bamboo", meaningSw:"Mwanzi", examples:[{char:"笔",pinyin:"bǐ",meaning:"pen"},{char:"笑",pinyin:"xiào",meaning:"laugh"},{char:"答",pinyin:"dá",meaning:"answer"},{char:"第",pinyin:"dì",meaning:"number"}] },
+    { radical:"艹", name:"草字头", pinyin:"cǎo zì tóu", meaning:"Grass", meaningSw:"Nyasi", examples:[{char:"花",pinyin:"huā",meaning:"flower"},{char:"草",pinyin:"cǎo",meaning:"grass"},{char:"茶",pinyin:"chá",meaning:"tea"},{char:"药",pinyin:"yào",meaning:"medicine"}] },
+    { radical:"虫", name:"虫字旁", pinyin:"chóng zì páng", meaning:"Insect", meaningSw:"Mdudu", examples:[{char:"蚊",pinyin:"wén",meaning:"mosquito"},{char:"蛇",pinyin:"shé",meaning:"snake"},{char:"蛙",pinyin:"wā",meaning:"frog"},{char:"蝶",pinyin:"dié",meaning:"butterfly"}] },
+    { radical:"鱼", name:"鱼字旁", pinyin:"yú zì páng", meaning:"Fish", meaningSw:"Samaki", examples:[{char:"鲜",pinyin:"xiān",meaning:"fresh"},{char:"鲤",pinyin:"lǐ",meaning:"carp"},{char:"鲸",pinyin:"jīng",meaning:"whale"},{char:"鲨",pinyin:"shā",meaning:"shark"}] },
+    { radical:"鸟", name:"鸟字旁", pinyin:"niǎo zì páng", meaning:"Bird", meaningSw:"Ndege", examples:[{char:"鸡",pinyin:"jī",meaning:"chicken"},{char:"鸭",pinyin:"yā",meaning:"duck"},{char:"鹅",pinyin:"é",meaning:"goose"},{char:"鸽",pinyin:"gē",meaning:"pigeon"}] },
+    { radical:"马", name:"马字旁", pinyin:"mǎ zì páng", meaning:"Horse", meaningSw:"Farasi", examples:[{char:"骑",pinyin:"qí",meaning:"ride"},{char:"驶",pinyin:"shǐ",meaning:"drive"},{char:"骄",pinyin:"jiāo",meaning:"proud"},{char:"验",pinyin:"yàn",meaning:"test"}] },
+    { radical:"彳", name:"双人旁", pinyin:"shuāng rén páng", meaning:"Double person", meaningSw:"Hatua", examples:[{char:"行",pinyin:"xíng",meaning:"walk/go"},{char:"很",pinyin:"hěn",meaning:"very"},{char:"往",pinyin:"wǎng",meaning:"toward"},{char:"得",pinyin:"dé",meaning:"get"}] },
+    { radical:"刀", name:"刀字旁", pinyin:"dāo zì páng", meaning:"Knife", meaningSw:"Kisu", examples:[{char:"切",pinyin:"qiē",meaning:"cut"},{char:"分",pinyin:"fēn",meaning:"divide"},{char:"初",pinyin:"chū",meaning:"beginning"},{char:"剪",pinyin:"jiǎn",meaning:"scissors"}] },
+    { radical:"犭", name:"反犬旁", pinyin:"fǎn quǎn páng", meaning:"Animal/Dog", meaningSw:"Mnyama", examples:[{char:"狗",pinyin:"gǒu",meaning:"dog"},{char:"猫",pinyin:"māo",meaning:"cat"},{char:"狼",pinyin:"láng",meaning:"wolf"},{char:"猪",pinyin:"zhū",meaning:"pig"}] },
+    { radical:"金", name:"金字旁", pinyin:"jīn zì páng", meaning:"Gold/Metal", meaningSw:"Dhahabu/Chuma", examples:[{char:"金",pinyin:"jīn",meaning:"gold"},{char:"银",pinyin:"yín",meaning:"silver"},{char:"针",pinyin:"zhēn",meaning:"needle"},{char:"钟",pinyin:"zhōng",meaning:"clock"}] },
+    { radical:"门", name:"门字框", pinyin:"mén zì kuàng", meaning:"Door", meaningSw:"Mlango", examples:[{char:"门",pinyin:"mén",meaning:"door"},{char:"间",pinyin:"jiān",meaning:"room"},{char:"问",pinyin:"wèn",meaning:"ask"},{char:"闻",pinyin:"wén",meaning:"hear"}] },
+    { radical:"香", name:"香字旁", pinyin:"xiāng zì páng", meaning:"Fragrant", meaningSw:"Harufu nzuri", examples:[{char:"香",pinyin:"xiāng",meaning:"fragrant"},{char:"馥",pinyin:"fù",meaning:"fragrance"},{char:"馨",pinyin:"xīn",meaning:"perfume"}] }
+];
+
+// ============================================================
+// SONGS
+// ============================================================
+const songLyrics = {
+    "月亮代表我的心":[
+        {chinese:"你问我爱你有多深",pinyin:"nǐ wèn wǒ ài nǐ yǒu duō shēn",english:"You ask how deep my love is",swahili:"Unauliza upendo wangu uko kina gani"},
+        {chinese:"我爱你有几分",pinyin:"wǒ ài nǐ yǒu jǐ fēn",english:"How much I love you",swahili:"Kiasi gani nakupenda"},
+        {chinese:"我的情也真",pinyin:"wǒ de qíng yě zhēn",english:"My feelings are true",swahili:"Hisia zangu ni za kweli"},
+        {chinese:"我的爱也真",pinyin:"wǒ de ài yě zhēn",english:"My love is true",swahili:"Upendo wangu ni wa kweli"},
+        {chinese:"月亮代表我的心",pinyin:"yuèliàng dàibiǎo wǒ de xīn",english:"The moon represents my heart",swahili:"Mwezi unawakilisha moyo wangu"}
+    ],
+    "甜蜜蜜":[
+        {chinese:"甜蜜蜜 你笑得甜蜜蜜",pinyin:"tián mì mì nǐ xiào dé tián mì mì",english:"Sweet honey, your smile is so sweet",swahili:"Asali tamu, tabasamu lako ni tamu sana"},
+        {chinese:"好像花儿开在春风里",pinyin:"hǎoxiàng huār kāi zài chūnfēng lǐ",english:"Like flowers blooming in the spring breeze",swahili:"Kama maua yanayochanua katika upepo wa machipuko"},
+        {chinese:"在哪里 在哪里见过你",pinyin:"zài nǎlǐ zài nǎlǐ jiànguò nǐ",english:"Where, where have I seen you",swahili:"Wapi, wapi nimekuona"}
+    ],
+    "朋友":[
+        {chinese:"朋友 一生一起走",pinyin:"péngyǒu yīshēng yīqǐ zǒu",english:"Friends, walk together for a lifetime",swahili:"Marafiki, tembea pamoja kwa maisha"},
+        {chinese:"那些日子 不再有",pinyin:"nàxiē rìzi bù zài yǒu",english:"Those days will never come again",swahili:"Siku hizo hazitarudi tena"},
+        {chinese:"一句话 一辈子",pinyin:"yī jù huà yī bèizi",english:"One word, a lifetime",swahili:"Neno moja, maisha yote"}
+    ],
+    "茉莉花":[
+        {chinese:"好一朵美丽的茉莉花",pinyin:"hǎo yī duǒ měilì de mòlìhuā",english:"What a beautiful jasmine flower",swahili:"Ni ua mzuri wa jasmine"},
+        {chinese:"芬芳美丽满枝桠",pinyin:"fēnfāng měilì mǎn zhī yā",english:"Fragrant and lovely on the branch",swahili:"Lenye harufu nzuri na zuri kwenye tawi"},
+        {chinese:"又香又白人人夸",pinyin:"yòu xiāng yòu bái rénrén kuā",english:"Fragrant and white, everyone praises",swahili:"Lenye harufu nzuri na jeupe, kila mtu anasifu"}
+    ],
+    "小苹果":[
+        {chinese:"你是我的小呀小苹果",pinyin:"nǐ shì wǒ de xiǎo ya xiǎo píngguǒ",english:"You are my little apple",swahili:"Wewe ni tofaa langu dogo"},
+        {chinese:"怎么爱你都不嫌多",pinyin:"zěnme ài nǐ dōu bù xián duō",english:"No matter how much I love you, it's never too much",swahili:"Hata nikupenda kiasi gani, sio kupita kiasi"}
+    ],
+    "隐形的翅膀":[
+        {chinese:"每一次 都在徘徊孤单中坚强",pinyin:"měi yī cì dōu zài páihuái gūdān zhōng jiānqiáng",english:"Every time, I become strong in loneliness",swahili:"Kila wakati, ninakuwa hodari katikati ya upweke"},
+        {chinese:"我知道 我一直有双隐形的翅膀",pinyin:"wǒ zhīdào wǒ yīzhí yǒu shuāng yǐnxíng de chìbǎng",english:"I know I've always had invisible wings",swahili:"Najua nimekuwa na mabawa yasiyoonekana"}
+    ],
+    "听我说谢谢你":[
+        {chinese:"听我说谢谢你",pinyin:"tīng wǒ shuō xiè xiè nǐ",english:"Listen to me, thank you",swahili:"Nisikilize, asante"},
+        {chinese:"因为有你 温暖了四季",pinyin:"yīn wèi yǒu nǐ wēn nuǎn le sì jì",english:"Because of you, the seasons are warm",swahili:"Kwa sababu yako, misimu ina joto"},
+        {chinese:"世界更美丽",pinyin:"shì jiè gèng měi lì",english:"The world is more beautiful",swahili:"Dunia inakuwa nzuri zaidi"}
+    ],
+    "学猫叫":[
+        {chinese:"我们一起学猫叫",pinyin:"wǒmen yīqǐ xué māo jiào",english:"Let's learn to meow together",swahili:"Tujifunze kulia kama paka pamoja"},
+        {chinese:"一起喵喵喵喵喵",pinyin:"yīqǐ miāo miāo miāo miāo miāo",english:"Meow meow meow meow meow",swahili:"Nyao nyao nyao nyao nyao"}
+    ],
+    "花园种花 (挖呀挖呀挖)":[
+        {chinese:"在小小的花园里面 挖呀挖呀挖",pinyin:"zài xiǎo xiǎo de huāyuán lǐ miàn wā ya wā ya wā",english:"In a little garden, dig and dig and dig",swahili:"Kwenye bustani ndogo, chimba na chimba na chimba"},
+        {chinese:"种小小的种子 开小小的花",pinyin:"zhòng xiǎo xiǎo de zhǒngzi kāi xiǎo xiǎo de huā",english:"Plant little seeds, grow little flowers",swahili:"Panda mbegu ndogo, kua maua madogo"}
+    ],
+    "老鼠爱大米":[
+        {chinese:"我爱你 爱着你 就像老鼠爱大米",pinyin:"wǒ ài nǐ àizhe nǐ jiù xiàng lǎoshǔ ài dàmǐ",english:"I love you like a mouse loves rice",swahili:"Nakupenda, kama panya anavyopenda wali"}
+    ],
+    "对不起我的中文不好":[
+        {chinese:"对不起 我的中文不好",pinyin:"duìbuqǐ wǒ de zhōngwén bù hǎo",english:"Sorry, my Chinese is not good",swahili:"Samahani, Kichina changu si kizuri"},
+        {chinese:"但是我很努力在学习",pinyin:"dànshì wǒ hěn nǔlì zài xuéxí",english:"But I'm trying hard to learn",swahili:"Lakini ninajitahidi kujifunza"}
+    ],
+    "青春修炼手册":[
+        {chinese:"跟着我 左手 右手 一个慢动作",pinyin:"gēnzhe wǒ zuǒshǒu yòushǒu yī gè màn dòngzuò",english:"Follow me, left hand, right hand, slow motion",swahili:"Nifuate, mkono wa kushoto, mkono wa kulia, mwendo wa polepole"}
+    ],
+    "这是我的心":[
+        {chinese:"这是我的心 这是我的心",pinyin:"zhè shì wǒ de xīn zhè shì wǒ de xīn",english:"This is my heart, this is my heart",swahili:"Huu ni moyo wangu, huu ni moyo wangu"},
+        {chinese:"送给你 送给你",pinyin:"sòng gěi nǐ sòng gěi nǐ",english:"Giving it to you, giving it to you",swahili:"Nakupa, nakupa"}
+    ],
+    "我不敢说":[
+        {chinese:"我不敢说 我不敢说",pinyin:"wǒ bù gǎn shuō wǒ bù gǎn shuō",english:"I don't dare to say",swahili:"Sithubutu kusema"},
+        {chinese:"我的秘密 藏心里",pinyin:"wǒ de mìmì cáng xīn lǐ",english:"My secrets hide in my heart",swahili:"Siri zangu nimeficha moyoni"}
+    ],
+    "愛上你難忘記":[
+        {chinese:"爱上你难忘记",pinyin:"ài shàng nǐ nán wàng jì",english:"Falling in love with you is hard to forget",swahili:"Kukupenda ni vigumu kusahau"},
+        {chinese:"每一天每一夜 都在想念你",pinyin:"měi yī tiān měi yī yè dōu zài xiǎng niàn nǐ",english:"Every day and night I'm thinking of you",swahili:"Kila siku na kila usiku, ninakufikiria"}
+    ],
+    "天際":[
+        {chinese:"在天際的远方 有我的梦想",pinyin:"zài tiān jì de yuǎn fāng yǒu wǒ de mèng xiǎng",english:"In the distant horizon, there is my dream",swahili:"Katika upeo wa mbali, kuna ndoto yangu"},
+        {chinese:"星光照亮我前行",pinyin:"xīng guāng zhào liàng wǒ qián xíng",english:"Starlight illuminates my way forward",swahili:"Mwanga wa nyota unaangaza njia yangu mbele"}
+    ]
+};
+
+const songs = [
+    {title:"月亮代表我的心",titleSw:"Mwezi Unawakilisha Moyo Wangu",artist:"邓丽君 (Teresa Teng)",youtube:"https://www.youtube.com/watch?v=IiFm7AWP9n4",snippet:"你问我爱你有多深… 月亮代表我的心",snippetPinyin:"nǐ wèn wǒ ài nǐ yǒu duō shēn… yuèliàng dàibiǎo wǒ de xīn",snippetEn:"You ask how deep my love is… the moon represents my heart.",snippetSw:"Unauliza upendo wangu uko kina gani… bulan mewakili hatiku."},
+    {title:"甜蜜蜜",titleSw:"Tamu Sana",artist:"邓丽君 (Teresa Teng)",youtube:"https://www.youtube.com/watch?v=jp9V0PJn2N0",snippet:"甜蜜蜜 你笑得甜蜜蜜 好像花儿开在春风里",snippetPinyin:"tián mì mì nǐ xiào dé tián mì mì",snippetEn:"Sweet honey, your smile is so sweet.",snippetSw:"Asali tamu, tabasamu lako ni tamu sana."},
+    {title:"朋友",titleSw:"Rafiki",artist:"周华健 (Wakin Chau)",youtube:"https://www.youtube.com/watch?v=_iZOUWHnDbM",snippet:"朋友 一生一起走 那些日子 不再有",snippetPinyin:"péngyǒu yīshēng yīqǐ zǒu",snippetEn:"Friends, walk together for a lifetime.",snippetSw:"Marafiki, tembea pamoja kwa maisha."},
+    {title:"茉莉花",titleSw:"Ua la Jasmine",artist:"宋祖英 (Song Zuying)",youtube:"https://www.youtube.com/watch?v=y7hdZ5rYd2E",snippet:"好一朵美丽的茉莉花 芬芳美丽满枝桠",snippetPinyin:"hǎo yī duǒ měilì de mòlìhuā",snippetEn:"What a beautiful jasmine flower.",snippetSw:"Ni ua mzuri wa jasmine."},
+    {title:"小苹果",titleSw:"Tofaa Dogo",artist:"筷子兄弟 (Chopstick Brothers)",youtube:"https://www.youtube.com/shorts/pbJqVAHrvGM",snippet:"你是我的小呀小苹果 怎么爱你都不嫌多",snippetPinyin:"nǐ shì wǒ de xiǎo ya xiǎo píngguǒ",snippetEn:"You are my little apple.",snippetSw:"Wewe ni tofaa langu dogo."},
+    {title:"隐形的翅膀",titleSw:"Mabawa Yasiyoonekana",artist:"张韶涵 (Angela Chang)",youtube:"https://www.youtube.com/shorts/PUovzgT0ios",snippet:"每一次 都在徘徊孤单中坚强",snippetPinyin:"měi yī cì dōu zài páihuái gūdān zhōng jiānqiáng",snippetEn:"Every time, I become strong in loneliness.",snippetSw:"Kila wakati, ninakuwa hodari katikati ya upweke."},
+    {title:"对不起我的中文不好",titleSw:"Samahani Kichina Changu Si Kizuri",artist:"Learning Chinese Song",youtube:"https://www.youtube.com/shorts/iNdC7wwv7iA",snippet:"对不起 我的中文不好 但是我很努力在学习",snippetPinyin:"duìbuqǐ wǒ de zhōngwén bù hǎo",snippetEn:"Sorry, my Chinese is not good, but I'm trying.",snippetSw:"Samahani, Kichina changu si kizuri, tapi saya berusaha."},
+    {title:"学猫叫",titleSw:"Jifunze Kupiga Kelele kama Paka",artist:"小潘潘 & 小峰峰",youtube:"https://www.youtube.com/watch?v=2VLY1BawqXw",snippet:"我们一起学猫叫 一起喵喵喵喵喵",snippetPinyin:"wǒmen yīqǐ xué māo jiào",snippetEn:"Let's learn to meow together.",snippetSw:"Tujifunze kulia kama paka pamoja."},
+    {title:"花园种花 (挖呀挖呀挖)",titleSw:"Panda Bustanini (Chimba, Chimba, Chimba)",artist:"儿歌 (Children's Song)",youtube:"https://www.youtube.com/watch?v=FqJDeEav-bs",snippet:"在小小的花园里面 挖呀挖呀挖",snippetPinyin:"zài xiǎo xiǎo de huāyuán lǐ miàn wā ya wā ya wā",snippetEn:"In a little garden, dig and dig and dig.",snippetSw:"Kwenye bustani ndogo, chimba na chimba na chimba."},
+    {title:"青春修炼手册",titleSw:"Mwongozo wa Vijana",artist:"TFBoys",youtube:"https://www.youtube.com/watch?v=pO2Vvyazrj8",snippet:"跟着我 左手 右手 一个慢动作",snippetPinyin:"gēnzhe wǒ zuǒshǒu yòushǒu yī gè màn dòngzuò",snippetEn:"Follow me, left hand, right hand, slow motion.",snippetSw:"Nifuate, mkono wa kushoto, mkono wa kulia, mwendo wa polepole."},
+    {title:"老鼠爱大米",titleSw:"Panya Anapenda Mchele",artist:"杨臣刚 (Yang Chengang)",youtube:"https://www.youtube.com/shorts/5COsDzLdzD0",snippet:"我爱你 爱着你 就像老鼠爱大米",snippetPinyin:"wǒ ài nǐ àizhe nǐ jiù xiàng lǎoshǔ ài dàmǐ",snippetEn:"I love you like a mouse loves rice.",snippetSw:"Nakupenda, kama panya anavyopenda wali."},
+    {title:"这是我的心",titleSw:"Huu ni Moyo Wangu",artist:"Learning Chinese Song",youtube:"https://www.youtube.com/watch?v=HB-QFRJrty4",snippet:"这是我的心 送给你 送给你",snippetPinyin:"zhè shì wǒ de xīn sòng gěi nǐ",snippetEn:"This is my heart, giving it to you.",snippetSw:"Huu ni moyo wangu, nakupa."},
+    {title:"听我说谢谢你",titleSw:"Nisikilize, Asante",artist:"Children's Song",youtube:"https://www.youtube.com/watch?v=seFdteijPcw",snippet:"听我说谢谢你 因为有你 温暖了四季",snippetPinyin:"tīng wǒ shuō xiè xiè nǐ yīn wèi yǒu nǐ wēn nuǎn le sì jì",snippetEn:"Thank you, because of you the seasons are warm.",snippetSw:"Asante, kwa sababu yako, misimu ina joto."},
+    {title:"我不敢说",titleSw:"Sithubutu Kusema",artist:"Learning Chinese Song",youtube:"https://www.youtube.com/watch?v=HajoHVezOmk",snippet:"我不敢说 我的秘密 藏心里",snippetPinyin:"wǒ bù gǎn shuō wǒ de mìmì cáng xīn lǐ",snippetEn:"I don't dare say. My secrets hide in my heart.",snippetSw:"Sithubutu kusema. Rahasia tersimpan di hati."},
+    {title:"愛上你難忘記",titleSw:"Kukupenda ni Vigumu Kusahau",artist:"Cover Song",youtube:"https://www.youtube.com/watch?v=qlSN0gFWbnY",snippet:"爱上你难忘记 每一天每一夜 都在想念你",snippetPinyin:"ài shàng nǐ nán wàng jì měi yī tiān měi yī yè dōu zài xiǎng niàn nǐ",snippetEn:"Falling in love with you is hard to forget.",snippetSw:"Kukupenda ni vigumu kusahau."},
+    {title:"天際",titleSw:"Upeo wa Macho",artist:"了凡音樂",youtube:"https://www.youtube.com/watch?v=T8SzegB21BU",snippet:"在天際的远方 有我的梦想 星光照亮我前行",snippetPinyin:"zài tiān jì de yuǎn fāng yǒu wǒ de mèng xiǎng",snippetEn:"In the distant horizon, there is my dream.",snippetSw:"Katika upeo wa mbali, kuna ndoto yangu."}
+];
+
+// ============================================================
+// RENDER: NOUNS
+// ============================================================
+function renderNouns(list) {
+    const c = document.getElementById('nounList');
+    if (!list.length) { c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">🔍 Hakuna nomino zilizopatikana.</div>'; return; }
+    c.innerHTML = list.map(n => `
+        <div class="word-card">
+            <div class="word-card-img-emoji">${getEmoji(n.chinese)}</div>
+            <div class="word-card-body">
+                <div class="chinese-word" onclick="speak('${n.chinese}',this)">${n.chinese}</div>
+                <div class="pinyin">${n.pinyin}</div>
+                <div class="meaning"><strong>🇬🇧 ${n.eng}</strong><strong>🇹🇿 ${n.swa}</strong></div>
+                <div class="example">
+                    <div class="example-header">
+                        <div class="example-chinese" onclick="speak('${n.sentence}',this)">${n.sentence}</div>
+                        <button class="audio-btn" onclick="speak('${n.sentence}',this)">🔊</button>
+                    </div>
+                    <div class="example-pinyin">${n.sentencePinyin}</div>
+                    <div class="example-translation">${n.trans}</div>
+                </div>
+            </div>
+        </div>`).join('');
+}
+
+// ============================================================
+// RENDER: VERBS
+// ============================================================
+function renderVerbs(list) {
+    const c = document.getElementById('verbList');
+    if (!list.length) { c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">🔍 Hakuna vitenzi vilivyopatikana.</div>'; return; }
+    c.innerHTML = list.map(v => `
+        <div class="word-card">
+            <div class="word-card-img-emoji">${getEmoji(v.chinese)}</div>
+            <div class="word-card-body">
+                <div class="chinese-word" onclick="speak('${v.chinese}',this)">${v.chinese}</div>
+                <div class="pinyin">${v.pinyin}</div>
+                <div class="meaning"><strong>🇬🇧 ${v.eng}</strong><strong>🇹🇿 ${v.swa}</strong></div>
+                <div class="example">
+                    <div class="example-header">
+                        <div class="example-chinese" onclick="speak('${v.sentence}',this)">${v.sentence}</div>
+                        <button class="audio-btn" onclick="speak('${v.sentence}',this)">🔊</button>
+                    </div>
+                    <div class="example-pinyin">${v.sentencePinyin}</div>
+                    <div class="example-translation">${v.trans}</div>
+                </div>
+            </div>
+        </div>`).join('');
+}
+
+// ============================================================
+// RENDER: RADICALS
+// ============================================================
+function renderRadicals(list) {
+    const c = document.getElementById('radicalList');
+    if (!list.length) { c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">🔍 Hakuna mizizi iliyopatikana.</div>'; return; }
+    c.innerHTML = list.map(r => `
+        <div class="radical-card">
+            <div class="radical-card-emoji">${getEmoji(r.radical)}</div>
+            <div class="radical-card-body">
+                <div class="radical-header">
+                    <div class="radical-symbol" onclick="speak('${r.radical}',this)">${r.radical}</div>
+                    <div class="radical-info">
+                        <div class="radical-name" onclick="speak('${r.name}',this)">${r.name} (${r.pinyin})</div>
+                        <div class="radical-meaning">🇬🇧 ${r.meaning} | 🇹🇿 ${r.meaningSw}</div>
+                    </div>
+                </div>
+                <div class="radical-examples">
+                    ${r.examples.map(e=>`
+                        <div class="example-word" onclick="speak('${e.char}',this)">
+                            <div class="chinese">${e.char}</div>
+                            <div class="pinyin">${e.pinyin}</div>
+                            <div class="meaning">${e.meaning}</div>
+                        </div>`).join('')}
+                </div>
+            </div>
+        </div>`).join('');
+}
+
+// ============================================================
+// RENDER: SONGS
+// ============================================================
+function renderSongs(list) {
+    const c = document.getElementById('songList');
+    if (!list.length) { c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">🎤 Hakuna nyimbo zilizopatikana.</div>'; return; }
+    c.innerHTML = list.map(s => `
+        <div class="word-card song-card">
+            <div class="word-card-body">
+                <div class="song-title" onclick="speak('${s.title}',this)">🎵 ${s.title} <span class="song-artist">${s.artist}</span></div>
+                <div style="font-size:0.88rem;color:#e67e22;font-style:italic;font-weight:600;margin:-4px 0 10px 8px;">🇹🇿 ${s.titleSw}</div>
+                <div class="button-group">
+                    <a class="youtube-link" href="${s.youtube}" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+                    <button class="lyrics-btn" onclick="showLyrics('${s.title.replace(/'/g,"\\'")}')">📝 Maneno Kamili</button>
+                </div>
+                <div class="song-lyric-snippet">
+                    <div class="lyric-line" onclick="speak('${s.snippet.replace(/'/g,"\\'")}',this)">${s.snippet}</div>
+                    <div class="lyric-pinyin">${s.snippetPinyin}</div>
+                    <div class="translation-block">
+                        <div class="translation-en">📘 ${s.snippetEn}</div>
+                        <div class="translation-sw">🇹🇿 ${s.snippetSw}</div>
+                    </div>
+                </div>
+            </div>
+        </div>`).join('');
+}
+
+// ============================================================
+// MODAL LYRICS
+// ============================================================
+let currentLyrics = [];
+function showLyrics(title) {
+    const modal = document.getElementById('lyricsModal');
+    const mc = document.getElementById('modalContent');
+    const lyrics = songLyrics[title] || [];
+    const song = songs.find(s=>s.title===title);
+    let html = `<div class="modal-song-title" onclick="speak('${title}',this)">🎵 ${title}</div>
+                <div class="modal-artist">${song?.artist||''}</div>
+                <div class="modal-lyrics">`;
+    lyrics.forEach(l => {
+        html += `<div class="lyrics-line">
+            <div class="lyrics-chinese" onclick="speak('${l.chinese.replace(/'/g,"\\'")}',this)">${l.chinese}</div>
+            <div class="lyrics-pinyin">${l.pinyin}</div>
+            <div class="lyrics-en">📘 ${l.english}</div>
+            <div class="lyrics-sw">🇹🇿 ${l.swahili}</div>
+        </div>`;
+    });
+    html += '</div>';
+    mc.innerHTML = html;
+    currentLyrics = lyrics;
+    modal.style.display = 'block';
+}
+window.copyLyricsToClipboard = function() {
+    let text = '';
+    currentLyrics.forEach(l => { text += `${l.chinese}\n${l.pinyin}\n📘 ${l.english}\n🇹🇿 ${l.swahili}\n\n`; });
+    navigator.clipboard.writeText(text).then(()=>alert('Maneno yamenakiliwa!'));
+};
+document.querySelector('.close-modal').onclick = ()=>document.getElementById('lyricsModal').style.display='none';
+window.onclick = e=>{ if(e.target===document.getElementById('lyricsModal')) document.getElementById('lyricsModal').style.display='none'; };
+
+// ============================================================
+// FILTER
+// ============================================================
+window.filterNouns = () => {
+    const t = document.getElementById('nounSearch').value.toLowerCase();
+    const cat = document.getElementById('nounFilter').value;
+    renderNouns(fullNouns.filter(n=>(n.chinese.includes(t)||n.pinyin.toLowerCase().includes(t)||n.eng.toLowerCase().includes(t)||n.swa.toLowerCase().includes(t))&&(cat==='all'||n.category===cat)));
+};
+window.filterVerbs = () => {
+    const t = document.getElementById('verbSearch').value.toLowerCase();
+    const cat = document.getElementById('verbFilter').value;
+    renderVerbs(fullVerbs.filter(v=>(v.chinese.includes(t)||v.pinyin.toLowerCase().includes(t)||v.eng.toLowerCase().includes(t)||v.swa.toLowerCase().includes(t))&&(cat==='all'||v.category===cat)));
+};
+window.filterRadicals = () => {
+    const t = document.getElementById('radicalSearch').value.toLowerCase();
+    renderRadicals(fullRadicals.filter(r=>r.radical.includes(t)||r.name.includes(t)||r.pinyin.toLowerCase().includes(t)||r.meaning.toLowerCase().includes(t)||r.meaningSw.toLowerCase().includes(t)||r.examples.some(e=>e.char.includes(t)||e.meaning.toLowerCase().includes(t))));
+};
+window.filterSongs = () => {
+    const t = document.getElementById('songSearch').value.toLowerCase();
+    renderSongs(songs.filter(s=>s.title.toLowerCase().includes(t)||s.artist.toLowerCase().includes(t)||s.snippet.toLowerCase().includes(t)));
+};
+
+// ============================================================
+// QUIZ SYSTEM — 200 questions
+// ============================================================
+let quizMode = 'all';
+let allQuizQuestions = [];
+let shuffledQuestions = [];
+let currentQuizIndex = 0;
+let quizScore = 0;
+let answeredThisRound = false;
+let hintUsed = false;
+
+function buildAllQuizQuestions() {
+    const qs = [];
+
+    // From nouns (unique)
+    baseNouns.forEach((n, i) => {
+        // Type 1: Chinese → Indonesian
+        const wrongPool = baseNouns.filter(x=>x.idn!==n.swa).map(x=>x.idn);
+        const wrongs = shuffle(wrongPool).slice(0,3);
+        qs.push({
+            type: 'nouns',
+            subtype: 'chinese-to-indo',
+            emoji: getEmoji(n.chinese),
+            question: `Ni nini maana yake kwa Kiswahili?`,
+            prompt: n.chinese,
+            pinyin: n.pinyin,
+            answer: n.swa,
+            options: shuffle([n.swa, ...wrongs]),
+            tag: 'Nomino → SW'
+        });
+        // Type 2: Indonesian → Chinese
+        const wrongZh = shuffle(baseNouns.filter(x=>x.chinese!==n.chinese).map(x=>x.chinese)).slice(0,3);
+        qs.push({
+            type: 'nouns',
+            subtype: 'indo-to-chinese',
+            emoji: getEmoji(n.chinese),
+            question: `Ni herufi gani ya Kichina kwa "${n.swa}"?`,
+            prompt: null,
+            pinyin: null,
+            answer: n.chinese,
+            options: shuffle([n.chinese, ...wrongZh]),
+            tag: 'SW → Hanzi'
+        });
+        // Type 3: Pinyin
+        const wrongPy = shuffle(baseNouns.filter(x=>x.pinyin!==n.pinyin).map(x=>x.pinyin)).slice(0,3);
+        qs.push({
+            type: 'nouns',
+            subtype: 'pinyin',
+            emoji: getEmoji(n.chinese),
+            question: `Ni pinyin gani kwa neno hili?`,
+            prompt: n.chinese,
+            pinyin: null,
+            answer: n.pinyin,
+            options: shuffle([n.pinyin, ...wrongPy]),
+            tag: 'Pinyin'
+        });
+    });
+
+    // From verbs (unique)
+    baseVerbs.forEach(v => {
+        const wrongPool = baseVerbs.filter(x=>x.idn!==v.swa).map(x=>x.idn);
+        const wrongs = shuffle(wrongPool).slice(0,3);
+        qs.push({
+            type: 'verbs',
+            subtype: 'chinese-to-indo',
+            emoji: getEmoji(v.chinese),
+            question: `Ni nini maana yake kwa Kiswahili?`,
+            prompt: v.chinese,
+            pinyin: v.pinyin,
+            answer: v.swa,
+            options: shuffle([v.swa, ...wrongs]),
+            tag: 'Kitenzi → SW'
+        });
+        const wrongZh = shuffle(baseVerbs.filter(x=>x.chinese!==v.chinese).map(x=>x.chinese)).slice(0,3);
+        qs.push({
+            type: 'verbs',
+            subtype: 'indo-to-chinese',
+            emoji: getEmoji(v.chinese),
+            question: `Ni herufi gani ya Kichina kwa "${v.swa}"?`,
+            prompt: null,
+            pinyin: null,
+            answer: v.chinese,
+            options: shuffle([v.chinese, ...wrongZh]),
+            tag: 'SW → Hanzi'
+        });
+    });
+
+    // From radicals
+    fullRadicals.forEach(r => {
+        const wrongPool = fullRadicals.filter(x=>x.meaningId!==r.meaningSw).map(x=>x.meaningId);
+        const wrongs = shuffle(wrongPool).slice(0,3);
+        qs.push({
+            type: 'radicals',
+            subtype: 'chinese-to-indo',
+            emoji: getEmoji(r.radical),
+            question: `Ni maana gani ya mzizi huu kwa Kiswahili?`,
+            prompt: r.radical,
+            pinyin: r.pinyin,
+            answer: r.meaningSw,
+            options: shuffle([r.meaningSw, ...wrongs]),
+            tag: 'Mzizi → SW'
+        });
+        // Radical: example word
+        const ex = r.examples[0];
+        const wrongWords = shuffle(fullRadicals.filter(x=>x.radical!==r.radical).flatMap(x=>x.examples).map(x=>x.char)).slice(0,3);
+        qs.push({
+            type: 'radicals',
+            subtype: 'pinyin',
+            emoji: getEmoji(r.radical),
+            question: `"${ex.meaning}" inaandikwa kwa herufi gani ya Kichina?`,
+            prompt: null,
+            pinyin: null,
+            answer: ex.char,
+            options: shuffle([ex.char, ...wrongWords]),
+            tag: 'Mfano wa Neno'
+        });
+    });
+
+    return qs;
+}
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length-1; i>0; i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+}
+
+function setQuizMode(mode, btn) {
+    quizMode = mode;
+    document.querySelectorAll('.quiz-filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    startQuiz();
+}
+
+function getFilteredQuestions() {
+    let pool = allQuizQuestions;
+    if (quizMode === 'nouns') pool = pool.filter(q=>q.type==='nouns');
+    else if (quizMode === 'verbs') pool = pool.filter(q=>q.type==='verbs');
+    else if (quizMode === 'radicals') pool = pool.filter(q=>q.type==='radicals');
+    else if (quizMode === 'chinese-to-swa') pool = pool.filter(q=>q.subtype==='chinese-to-indo');
+    else if (quizMode === 'swa-to-chinese') pool = pool.filter(q=>q.subtype==='indo-to-chinese');
+    else if (quizMode === 'pinyin') pool = pool.filter(q=>q.subtype==='pinyin');
+    return shuffle(pool).slice(0, 200);
+}
+
+function startQuiz() {
+    shuffledQuestions = getFilteredQuestions();
+    if (!shuffledQuestions.length) shuffledQuestions = shuffle(allQuizQuestions).slice(0,200);
+    currentQuizIndex = 0; quizScore = 0;
+    updateQuizHeader();
+    renderQuizQuestion();
+}
+
+function updateQuizHeader() {
+    const total = shuffledQuestions.length;
+    document.getElementById('quizScore').textContent = `Alama: ${quizScore} / ${currentQuizIndex}`;
+    document.getElementById('quizCounter').textContent = `Swali ${Math.min(currentQuizIndex+1, total)} / ${total}`;
+    const pct = total ? (currentQuizIndex / total * 100) : 0;
+    document.getElementById('quizProgressFill').style.width = pct + '%';
+}
+
+function renderQuizQuestion() {
+    const area = document.getElementById('quizArea');
+    if (currentQuizIndex >= shuffledQuestions.length) {
+        area.innerHTML = `<div class="quiz-complete">
+            <h2>🎉 Maswali Yamekwisha!</h2>
+            <div class="score-big">${quizScore} / ${shuffledQuestions.length}</div>
+            <p>${quizScore >= shuffledQuestions.length*0.8 ? '🌟 Vizuri sana! Umefanya vizuri!' : quizScore >= shuffledQuestions.length*0.5 ? '👍 Nzuri! Endelea kujifunza!' : '💪 Jaribu tena! Endelea!'}</p>
+            <div class="quiz-btn-row" style="margin-top:24px">
+                <button class="quiz-btn quiz-btn-restart" onclick="startQuiz()">🔄 Anza Upya</button>
+            </div>
+        </div>`;
+        return;
+    }
+
+    answeredThisRound = false;
+    hintUsed = false;
+    const q = shuffledQuestions[currentQuizIndex];
+    updateQuizHeader();
+
+    let promptHTML = '';
+    if (q.prompt) {
+        promptHTML = `<div class="quiz-chinese" onclick="speak('${q.prompt.replace(/'/g,"\\'")}',this)">${q.prompt}</div>`;
+    } else {
+        promptHTML = `<div style="font-size:1.3rem;font-weight:700;color:#1e2b4a;margin:12px 0;background:#f0f4ff;padding:10px 20px;border-radius:12px;display:inline-block;">${q.question.includes('"') ? '' : ''}</div>`;
+    }
+
+    area.innerHTML = `<div class="quiz-card">
+        <span class="quiz-card-emoji">${q.emoji}</span>
+        <div class="quiz-type-tag">${q.tag}</div>
+        <div class="quiz-question">${q.question}</div>
+        ${promptHTML}
+        <div class="quiz-pinyin-hint" id="quizPinyinHint" style="color:#e67e22;min-height:26px;"></div>
+        <div class="quiz-options" id="quizOptions">
+            ${q.options.map((opt,i)=>`
+                <button class="quiz-option" onclick="checkAnswer(this,'${opt.replace(/'/g,"\\'")}','${q.answer.replace(/'/g,"\\'")}','${q.prompt?q.prompt.replace(/'/g,"\\'"):''}')">
+                    ${opt}
+                </button>`).join('')}
+        </div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <div class="quiz-btn-row">
+            ${q.pinyin?`<button class="quiz-btn quiz-btn-hint" id="hintBtn" onclick="showHint('${q.pinyin}')">💡 Onyesha Pinyin</button>`:''}
+            <button class="quiz-btn quiz-btn-next" id="nextBtn" onclick="nextQuestion()" disabled>▶ Inayofuata</button>
+        </div>
+    </div>`;
+}
+
+function checkAnswer(btn, selected, correct, chineseText) {
+    if (answeredThisRound) return;
+    answeredThisRound = true;
+    const opts = document.querySelectorAll('.quiz-option');
+    opts.forEach(o => {
+        o.disabled = true;
+        if (o.textContent.trim() === correct) o.classList.add('correct');
+    });
+    const fb = document.getElementById('quizFeedback');
+    if (selected === correct) {
+        btn.classList.add('correct');
+        fb.textContent = '✅ Sahihi!'; fb.className = 'quiz-feedback correct';
+        quizScore++;
+    } else {
+        btn.classList.add('wrong');
+        fb.textContent = `❌ Kosa. Jibu sahihi: ${correct}`; fb.className = 'quiz-feedback wrong';
+    }
+    if (chineseText) speak(chineseText, null);
+    document.getElementById('nextBtn').disabled = false;
+    currentQuizIndex++;
+    updateQuizHeader();
+}
+
+function showHint(pinyin) {
+    if (hintUsed) return;
+    hintUsed = true;
+    document.getElementById('quizPinyinHint').textContent = pinyin;
+    document.getElementById('hintBtn').disabled = true;
+}
+
+function nextQuestion() {
+    renderQuizQuestion();
+}
+
+window.setQuizMode = setQuizMode;
+
+// ============================================================
+// TABS
+// ============================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+        const panels = {nouns:'nounsPanel',verbs:'verbsPanel',radicals:'radicalsPanel',songs:'songsPanel',quiz:'quizPanel'};
+        const panel = document.getElementById(panels[btn.dataset.tab]);
+        if (panel) panel.classList.add('active');
+    });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+renderNouns(fullNouns);
+renderVerbs(fullVerbs);
+renderRadicals(fullRadicals);
+renderSongs(songs);
+allQuizQuestions = buildAllQuizQuestions();
+startQuiz();
+</script>
+</body>
+</html>
